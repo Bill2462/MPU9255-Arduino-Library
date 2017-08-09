@@ -24,3 +24,5 @@ get_mx	KEYWORD2
 get_my	KEYWORD2
 get_mz	KEYWORD2
 read_mag	KEYWORD2
+read_gyro	KEYWORD2
+read_acc	KEYWORD2
