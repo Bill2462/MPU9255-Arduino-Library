@@ -11,6 +11,13 @@ Copyright (C) Bill2462 from https://github.com/Bill2462
 
 //############################################# Private functions ############################################# 
 // variables 
+uint16_t ax=0;
+uint16_t ay=0;
+uint16_t az=0;
+
+uint16_t gx=0;
+uint16_t gy=0;
+uint16_t gz=0;
 
 uint16_t mx=0;
 uint16_t my=0;
@@ -61,72 +68,80 @@ void MPU9255::init()
 
 }
 
+void MPU9255::read_acc()
+{
+
+  uint8_t rawData[6];
+
+  Wire.beginTransmission(MPU_adress); 
+  Wire.write(ACCEL_XOUT_H); 
+  Wire.endTransmission(false); 
+  uint8_t i = 0;
+  Wire.requestFrom(MPU_adress, 6); 
+  while (Wire.available()) {
+    rawData[i++] = Wire.read();
+  } 
+//data processing
+
+  ax = ((int16_t)rawData[0] << 8) | rawData[1] ; 
+  ay = ((int16_t)rawData[2] << 8) | rawData[3] ;
+  az = ((int16_t)rawData[4] << 8) | rawData[5] ;
+}
+
+void MPU9255::read_gyro()
+{
+  uint8_t rawData[6];
+
+  Wire.beginTransmission(MPU_adress); 
+  Wire.write(GYRO_XOUT_H); 
+  Wire.endTransmission(false); 
+  uint8_t i = 0;
+  Wire.requestFrom(MPU_adress, 6); 
+  while (Wire.available()) {
+    rawData[i++] = Wire.read();
+  } 
+//data processing
+
+  gx = ((int16_t)rawData[0] << 8) | rawData[1] ; 
+  gy = ((int16_t)rawData[2] << 8) | rawData[3] ;
+  gz = ((int16_t)rawData[4] << 8) | rawData[5] ;
+}
+
 int16_t MPU9255::get_ax()
 {
-  uint16_t data;
-  uint8_t rawData[2]; 
-  rawData[0]=read(MPU_adress,ACCEL_XOUT_H);
-  rawData[1]=read(MPU_adress,ACCEL_XOUT_L);
-  data=((int16_t)rawData[0] << 8) | rawData[1];
-  return data;
+ return ax;
 }
 
 int16_t MPU9255::get_ay()
 {
-  uint16_t data;
-  uint8_t rawData[2]; 
-  rawData[0]=read(MPU_adress,ACCEL_YOUT_H);
-  rawData[1]=read(MPU_adress,ACCEL_YOUT_L);
-  data=((int16_t)rawData[0] << 8) | rawData[1];
-  return data;
+ return ay;
 }
 
 int16_t MPU9255::get_az()
 {
-  uint16_t data;
-  uint8_t rawData[2]; 
-  rawData[0]=read(MPU_adress,ACCEL_ZOUT_H);
-  rawData[1]=read(MPU_adress,ACCEL_ZOUT_L);
-  data=((int16_t)rawData[0] << 8) | rawData[1];
-  return data;
+ return az;
 }
 
 int16_t MPU9255::get_gx()
 {
-  uint16_t data;
-  uint8_t rawData[2]; 
-  rawData[0]=read(MPU_adress,GYRO_XOUT_H);
-  rawData[1]=read(MPU_adress,GYRO_XOUT_L);
-  data=((int16_t)rawData[0] << 8) | rawData[1];
-  return data;
+ return gx;
 }
 
 int16_t MPU9255::get_gy()
 {
-  uint16_t data;
-  uint8_t rawData[2]; 
-  rawData[0]=read(MPU_adress,GYRO_YOUT_H);
-  rawData[1]=read(MPU_adress,GYRO_YOUT_L);
-  data=((int16_t)rawData[0] << 8) | rawData[1];
-  return data;
+ return gy;
 }
 
 int16_t MPU9255::get_gz()
 {
-  uint16_t data;
-  uint8_t rawData[2]; 
-  rawData[0]=read(MPU_adress,GYRO_ZOUT_H);
-  rawData[1]=read(MPU_adress,GYRO_ZOUT_L);
-  data=((int16_t)rawData[0] << 8) | rawData[1];
-  return data;
+ return gy;
 }
 
 void MPU9255::read_mag()
 {
     uint8_t rawData[6]; 
     read(MAG_adress, ST1);
-
-    //readBytes(AK8963_ADDRESS, AK8963_XOUT_L, 8, &rawData[0]);
+ 
 // get some data 
   Wire.beginTransmission(MAG_adress); 
   Wire.write(MAG_XOUT_L); 
