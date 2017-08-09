@@ -71,19 +71,21 @@ public:
 
 void init();
 // ---- Data read functions ----- 
-int16_t MPU9255::get_ax();
-int16_t MPU9255::get_ay();
-int16_t MPU9255::get_az();
+void read_acc();
+int16_t get_ax();
+int16_t get_ay();
+int16_t get_az();
 
-int16_t MPU9255::get_gx();
-int16_t MPU9255::get_gy();
-int16_t MPU9255::get_gz();
+void read_gyro();
+int16_t get_gx();
+int16_t get_gy();
+int16_t get_gz();
 
 void read_mag();
-int16_t MPU9255::get_mx();
-int16_t MPU9255::get_my();
-int16_t MPU9255::get_mz();
-
+int16_t get_mx();
+int16_t get_my();
+int16_t get_mz();
+ 
 private:
 uint8_t read(uint8_t address, uint8_t subAddress);
 void write(uint8_t address, uint8_t subAddress, uint8_t data);
