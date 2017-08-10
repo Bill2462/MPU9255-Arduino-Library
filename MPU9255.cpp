@@ -50,7 +50,7 @@ void MPU9255::init()
 {
   Wire.begin();
 // MPU9255 init procedure 
-  write(MPU_adress,PWR_MGMT_2, 0b11111111); // enable gyro and acc 
+  write(MPU_adress,PWR_MGMT_2, 0b00000000); // enable gyro and acc 
   write(MPU_adress,CONFIG, 0x03); // set DLPF_CFG to 11 
   write(MPU_adress,SMPLRT_DIV, 0x04);// set prescaler sample rate to 4 
   uint8_t c = read(MPU_adress,GYRO_CONFIG); 
