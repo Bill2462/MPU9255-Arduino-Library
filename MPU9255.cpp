@@ -68,6 +68,58 @@ void MPU9255::init()
 
 }
 
+void MPU9255::set_acc_scale(unsigned char value)
+{
+	uint8_t val=read(MPU_adress,ACCEL_CONFIG);
+	switch(value)
+	{
+		case 1:// +- 2g
+		val &= ~((1<<3)|(1<<4));// set bit 3 and 4 to 0
+		break;
+
+		case 2:// +- 4g
+		val &= ~(1<<4);// set bit 4 to zero
+		val |= (1<<3);// set bit 3 to 1 
+		break;
+
+		case 3:// +- 8g
+		val &= ~(1<<3);// set bit 3 to zero
+		val |= (1<<4);// set bit 4 to 1 
+		break;
+
+		case 4:// +- 16g
+		val |= (1<<4)|(1<<3);// set bit 3 and 4 to 1
+		break;
+	}
+	write(MPU_adress,ACCEL_CONFIG,val);// commit changes 
+}
+
+void MPU9255::set_gyro_scale(unsigned char value)
+{
+	uint8_t val=read(MPU_adress,GYRO_CONFIG);
+	switch(value)
+	{
+		case 1:// +- 250 dps
+		val &= ~((1<<3)|(1<<4));// set bit 3 and 4 to 0
+		break;
+
+		case 2:// +- 500 dps
+		val &= ~(1<<4);// set bit 4 to zero
+		val |= (1<<3);// set bit 3 to 1 
+		break;
+
+		case 3:// +- 1000 dps
+		val &= ~(1<<3);// set bit 3 to zero
+		val |= (1<<4);// set bit 4 to 1 
+		break;
+
+		case 4:// +- 2000 dps
+		val |= (1<<4)|(1<<3);// set bit 3 and 4 to 1
+		break;
+	}
+	write(MPU_adress,GYRO_CONFIG,val);// commit changes 
+}
+
 void MPU9255::read_acc()
 {
 
@@ -82,7 +134,6 @@ void MPU9255::read_acc()
     rawData[i++] = Wire.read();
   } 
 //data processing
-
   ax = ((int16_t)rawData[0] << 8) | rawData[1] ; 
   ay = ((int16_t)rawData[2] << 8) | rawData[3] ;
   az = ((int16_t)rawData[4] << 8) | rawData[5] ;
@@ -91,7 +142,6 @@ void MPU9255::read_acc()
 void MPU9255::read_gyro()
 {
   uint8_t rawData[6];
-
   Wire.beginTransmission(MPU_adress); 
   Wire.write(GYRO_XOUT_H); 
   Wire.endTransmission(false); 
@@ -101,7 +151,6 @@ void MPU9255::read_gyro()
     rawData[i++] = Wire.read();
   } 
 //data processing
-
   gx = ((int16_t)rawData[0] << 8) | rawData[1] ; 
   gy = ((int16_t)rawData[2] << 8) | rawData[3] ;
   gz = ((int16_t)rawData[4] << 8) | rawData[5] ;
@@ -139,9 +188,8 @@ int16_t MPU9255::get_gz()
 
 void MPU9255::read_mag()
 {
-    uint8_t rawData[6]; 
-    read(MAG_adress, ST1);
- 
+  uint8_t rawData[6]; 
+  read(MAG_adress, ST1);
 // get some data 
   Wire.beginTransmission(MAG_adress); 
   Wire.write(MAG_XOUT_L); 
