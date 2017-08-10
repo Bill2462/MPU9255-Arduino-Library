@@ -2,7 +2,7 @@
 Copyright (C) Bill2462 from https://github.com/Bill2462 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
- version 2 as published by the Free Software Foundation.
+ version 3 as published by the Free Software Foundation.
 
 */
 
@@ -25,7 +25,7 @@ Copyright (C) Bill2462 from https://github.com/Bill2462
 #define PWR_MGMT_2 0x6B
 #define INT_PIN_CFG 0x37
 #define ST1 0x02
-#define ST2 0x09
+//#define ST2 0x09
 #define CNTL 0x0A
 #define ACCEL_CONFIG 0x1C
 #define GYRO_CONFIG 0x1B
@@ -40,27 +40,27 @@ Copyright (C) Bill2462 from https://github.com/Bill2462
 
 // magnetometer 
 #define MAG_XOUT_L 0x03
-#define MAG_XOUT_H 0x04
-#define MAG_YOUT_L 0x05
-#define MAG_YOUT_H 0x06
-#define MAG_ZOUT_L 0x07
-#define MAG_ZOUT_H 0x08
+//#define MAG_XOUT_H 0x04
+//#define MAG_YOUT_L 0x05
+//#define MAG_YOUT_H 0x06
+//#define MAG_ZOUT_L 0x07
+//#define MAG_ZOUT_H 0x08
 
 // gyroscope
 #define GYRO_XOUT_H 0x43
-#define GYRO_XOUT_L 0x44
-#define GYRO_YOUT_H 0x45
-#define GYRO_YOUT_L 0x46
-#define GYRO_ZOUT_H 0x47
-#define GYRO_ZOUT_L 0x48
+//#define GYRO_XOUT_L 0x44
+//#define GYRO_YOUT_H 0x45
+//#define GYRO_YOUT_L 0x46
+//#define GYRO_ZOUT_H 0x47
+//#define GYRO_ZOUT_L 0x48
 
 //accelerometer 
 #define ACCEL_XOUT_H 0x3B
-#define ACCEL_XOUT_L 0x3C
-#define ACCEL_YOUT_H 0x3D
-#define ACCEL_YOUT_L 0x3E
-#define ACCEL_ZOUT_H 0x3F
-#define ACCEL_ZOUT_L 0x40
+//#define ACCEL_XOUT_L 0x3C
+//#define ACCEL_YOUT_H 0x3D
+//#define ACCEL_YOUT_L 0x3E
+//#define ACCEL_ZOUT_H 0x3F
+//#define ACCEL_ZOUT_L 0x40
 
 //############################################# MPU9255 class ################################################
 
@@ -70,6 +70,8 @@ class MPU9255
 public:
 
 void init();
+void set_acc_scale(unsigned char value);
+void set_gyro_scale(unsigned char value);
 // ---- Data read functions ----- 
 void read_acc();
 int16_t get_ax();
