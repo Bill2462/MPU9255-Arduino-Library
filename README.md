@@ -5,5 +5,5 @@ The library makes it simple to configure the MPU9255 and read all data through I
 
 Library was tested with Waveshare IMU 10DoF module. 
 
-Library reference : 
+Library reference : https://github.com/Bill2462/MPU9255-Arduino-Library/wiki/Library-reference
 
