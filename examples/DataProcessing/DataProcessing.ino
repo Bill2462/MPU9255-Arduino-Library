@@ -23,17 +23,17 @@ void loop() {
   mpu.read_gyro();
   mpu.read_mag();
 //save all readings to 'float' variables
-  float ax=mpu.get_ax();
-  float ay=mpu.get_ay();
-  float az=mpu.get_az();
+  float ax=mpu.ax;
+  float ay=mpu.ay;
+  float az=mpu.az;
 
-  float gx=mpu.get_gx();
-  float gy=mpu.get_gy();
-  float gz=mpu.get_gz();
+  float gx=mpu.gx;
+  float gy=mpu.gy;
+  float gz=mpu.gz;
 
-  float mx=mpu.get_mx();
-  float my=mpu.get_my();
-  float mz=mpu.get_mz();
+  float mx=mpu.mx;
+  float my=mpu.my;
+  float mz=mpu.mz;
 
 
 // do the math : 
