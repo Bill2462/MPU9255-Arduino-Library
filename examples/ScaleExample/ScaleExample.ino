@@ -12,26 +12,19 @@ void print_data()// read and print all data
 {
 	mpu.read_acc();
 	mpu.read_gyro();
-	int ax=mpu.get_ax();
-	int ay=mpu.get_ay();
-	int az=mpu.get_az();
-
-	int gx=mpu.get_gx();
-	int gy=mpu.get_gy();
-	int gz=mpu.get_gz();
 
 	Serial.print("AX: "); 
-	Serial.print(ax); 
+	Serial.print(mpu.ax); 
 	Serial.print(" AY: "); 
-	Serial.print(ay); 
+	Serial.print(mpu.ay); 
 	Serial.print(" AZ: "); 
-	Serial.print(az);
+	Serial.print(mpu.az);
 	Serial.print("     GX: "); 
-	Serial.print(gx); 
+	Serial.print(mpu.gx); 
 	Serial.print(" GY: "); 
-	Serial.print(gy); 
+	Serial.print(mpu.gy); 
 	Serial.print(" GZ: "); 
-	Serial.println(gz);
+	Serial.println(mpu.gz);
 }
 
 
