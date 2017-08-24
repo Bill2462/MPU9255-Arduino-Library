@@ -40,27 +40,12 @@ Copyright (C) Bill2462 from https://github.com/Bill2462
 
 // magnetometer 
 #define MAG_XOUT_L 0x03
-//#define MAG_XOUT_H 0x04
-//#define MAG_YOUT_L 0x05
-//#define MAG_YOUT_H 0x06
-//#define MAG_ZOUT_L 0x07
-//#define MAG_ZOUT_H 0x08
 
 // gyroscope
 #define GYRO_XOUT_H 0x43
-//#define GYRO_XOUT_L 0x44
-//#define GYRO_YOUT_H 0x45
-//#define GYRO_YOUT_L 0x46
-//#define GYRO_ZOUT_H 0x47
-//#define GYRO_ZOUT_L 0x48
 
 //accelerometer 
 #define ACCEL_XOUT_H 0x3B
-//#define ACCEL_XOUT_L 0x3C
-//#define ACCEL_YOUT_H 0x3D
-//#define ACCEL_YOUT_L 0x3E
-//#define ACCEL_ZOUT_H 0x3F
-//#define ACCEL_ZOUT_L 0x40
 
 //############################################# MPU9255 class ################################################
 
@@ -68,25 +53,28 @@ class MPU9255
 {
 
 public:
+ // ---- Variabled ----
+int16_t ax=0;
+int16_t ay=0;
+int16_t az=0;
 
+int16_t gx=0;
+int16_t gy=0;
+int16_t gz=0;
+
+int16_t mx=0;
+int16_t my=0;
+int16_t mz=0;
+ 
+// ---- General functions ----- 
 void init();
 void set_acc_scale(unsigned char value);
 void set_gyro_scale(unsigned char value);
+ 
 // ---- Data read functions ----- 
 void read_acc();
-int16_t get_ax();
-int16_t get_ay();
-int16_t get_az();
-
 void read_gyro();
-int16_t get_gx();
-int16_t get_gy();
-int16_t get_gz();
-
 void read_mag();
-int16_t get_mx();
-int16_t get_my();
-int16_t get_mz();
  
 private:
 uint8_t read(uint8_t address, uint8_t subAddress);
