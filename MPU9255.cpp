@@ -10,18 +10,6 @@ Copyright (C) Bill2462 from https://github.com/Bill2462
 #include "Arduino.h"
 
 //############################################# Private functions ############################################# 
-// variables 
-uint16_t ax=0;
-uint16_t ay=0;
-uint16_t az=0;
-
-uint16_t gx=0;
-uint16_t gy=0;
-uint16_t gz=0;
-
-uint16_t mx=0;
-uint16_t my=0;
-uint16_t mz=0;
 
 uint8_t MPU9255::read(uint8_t address, uint8_t subAddress)
 {
@@ -156,36 +144,6 @@ void MPU9255::read_gyro()
   gz = ((int16_t)rawData[4] << 8) | rawData[5] ;
 }
 
-int16_t MPU9255::get_ax()
-{
- return ax;
-}
-
-int16_t MPU9255::get_ay()
-{
- return ay;
-}
-
-int16_t MPU9255::get_az()
-{
- return az;
-}
-
-int16_t MPU9255::get_gx()
-{
- return gx;
-}
-
-int16_t MPU9255::get_gy()
-{
- return gy;
-}
-
-int16_t MPU9255::get_gz()
-{
- return gy;
-}
-
 void MPU9255::read_mag()
 {
   uint8_t rawData[6]; 
@@ -203,19 +161,4 @@ void MPU9255::read_mag()
 mx=((int16_t)rawData[1] << 8) | rawData[0] ;
 my=((int16_t)rawData[3] << 8) | rawData[2] ;
 mz=((int16_t)rawData[5] << 8) | rawData[4] ;
-}
-
-int16_t MPU9255::get_mx()
-{
-  return mx;
-}
-
-int16_t MPU9255::get_my()
-{
-  return my; 
-}
-
-int16_t MPU9255::get_mz()
-{
-  return mz;
 }
