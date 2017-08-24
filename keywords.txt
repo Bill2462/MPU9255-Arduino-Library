@@ -14,15 +14,6 @@ MPU9255	KEYWORD1
 #######################################
 
 init	KEYWORD2
-get_ax	KEYWORD2
-get_ay	KEYWORD2
-get_az	KEYWORD2
-get_gx	KEYWORD2
-get_gy	KEYWORD2
-get_gz	KEYWORD2
-get_mx	KEYWORD2
-get_my	KEYWORD2
-get_mz	KEYWORD2
 read_mag	KEYWORD2
 read_gyro	KEYWORD2
 read_acc	KEYWORD2
