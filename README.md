@@ -23,6 +23,6 @@ Library contains 4 examples :
 
 ## Library reference
 
-https://github.com/Bill2462/MPU9255-Arduino-Library/wiki/Library-reference
+https://github.com/Bill2462/MPU9255-Arduino-Library/wiki
 
 Note: Library was tested with Waveshare IMU 10DoF module.
