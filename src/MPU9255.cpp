@@ -1,10 +1,3 @@
-/*
-Copyright (C) Bill2462 from https://github.com/Bill2462
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- version 3 as published by the Free Software Foundation.
-*/
-
 #include "MPU9255.h"
 #include "Arduino.h"
 
@@ -161,9 +154,8 @@ void MPU9255::read_acc()
   Wire.requestFrom(MPU_adress, 6);//request 6 bytes of data from the sensor
 
   //read data
-  uint8_t i = 0;//index
   uint8_t rawData[6];//bufor
-  while (Wire.available())//loop throught all received bytes
+  for(char i = 0;i<6;i++)
   {
     rawData[i++] = Wire.read();//read byte and put it into rawData table
   }
@@ -186,8 +178,7 @@ void MPU9255::read_gyro()
   Wire.requestFrom(MPU_adress, 6);//request 6 bytes of data from the sensor
 
   uint8_t rawData[6];//bufor
-  uint8_t i = 0;//index
-  while (Wire.available())//loop throught all received bytes
+  for(char i = 0;i<6;i++)
   {
     rawData[i++] = Wire.read();//read byte and put it into rawData table
   }
@@ -210,8 +201,7 @@ void MPU9255::read_mag()
   Wire.requestFrom(MAG_adress, 8);//request 6 bytes of data from the sensor
 
   uint8_t rawData[6];//bufor
-  uint8_t i = 0;//index
-  while (Wire.available())//loop throught all received bytes
+  for(char i = 0;i<6;i++)
   {
     rawData[i++] = Wire.read();//read byte and put it into rawData table
   }
@@ -229,9 +219,8 @@ int16_t MPU9255::read_temp()
   Wire.endTransmission(false);//end transmission
   Wire.requestFrom(MPU_adress, 2);//request 2 bytes of data from the sensor
 
-  uint8_t rawData[2];//bufor
-  uint8_t i = 0;//index
-  while (Wire.available())//loop throught all received bytes
+  uint8_t rawData[2];
+  for(char i = 0;i<2;i++)
   {
     rawData[i++] = Wire.read();//read byte and put it into rawData table
   }
@@ -239,205 +228,4 @@ int16_t MPU9255::read_temp()
   int16_t temp=0;
   temp = ((int16_t)rawData[0] << 8) | rawData[1];//put together the output value
   return temp;//return raw data
-}
-
-/* Perform hard reset (basically reset everything). Call of init() function is required to use sensor afterwards
-Arguments: None
-Returns : None
-*/
-void MPU9255::Hreset()
-{
-  write(MPU_adress,PWR_MGMT_1, 0x80);//write 1 to the hard reset bit in PWR_MGMT_1 register
-}
-
-/* Reset signal patch of the gyroscope
-Arguments: None
-Returns : None
-*/
-void MPU9255::gyro_RST()
-{
-  write(MPU_adress,SIGNAL_PATH_RESET, 0x04);
-}
-
-/* Reset signal patch of the accelerometer
-Arguments: None
-Returns : None
-*/
-void MPU9255::acc_RST()
-{
-  write(MPU_adress,SIGNAL_PATH_RESET, 0x02);
-}
-
-/* Reset signal patch of the thermometer
-Arguments: None
-Returns : None
-*/
-void MPU9255::temp_RST()
-{
-  write(MPU_adress,SIGNAL_PATH_RESET, 0x01);
-}
-
-/* Reset accelerometer, gyroscope and thermometer sygnal patches and registers
-Arguments: None
-Returns : None
-*/
-void MPU9255::SIG_COND_RST()
-{
-  uint8_t c = read(MPU_adress,USER_CTRL);//read old register value
-  c = c | 0x01;//set bit 0 to 1
-  write(MPU_adress,USER_CTRL, c);//commit changes
-}
-
-/* Perform software reset of the magnetometer
-Arguments: None
-Returns : None
-*/
-void MPU9255::mag_SoftRST()
-{
-  write(MAG_adress,CNTL2, 0x01);
-}
-
-/* Power down the magnetometer
-Arguments: None
-Returns : None
-*/
-void MPU9255::mag_PWRD()
-{
-  write(MAG_adress,CNTL, 0x00);
-}
-
-/* Power up magnetometer
-Arguments: None
-Returns : None
-*/
-void MPU9255::mag_PWRU()
-{
-  write(MAG_adress,CNTL, 0x16);
-}
-
-/* Put main chip in a sleep mode
-Arguments: None
-Returns : None
-*/
-void MPU9255::sleep_enable()
-{
-  write(MPU_adress,PWR_MGMT_1, 0x40);//set sleep bit to 1
-}
-
-/* disable sleep mode
-Arguments: None
-Returns : None
-*/
-void MPU9255::sleep_disable()
-{
-  write(MPU_adress,PWR_MGMT_1, 0x00);//clear the sleep bit
-  delay(500);//wait until module stabilizes
-}
-
-/* disable accelerometer X axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::disable_ax()
-{
-  write_OR(MPU_adress,PWR_MGMT_2, 0x20);
-}
-
-/* disable accelerometer Y axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::disable_ay()
-{
-  write_OR(MPU_adress,PWR_MGMT_2, 0x10);
-}
-
-/* disable accelerometer Z axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::disable_az()
-{
-  write_OR(MPU_adress,PWR_MGMT_2, 0x08);
-}
-
-/* disable gyroscope X axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::disable_gx()
-{
-  write_OR(MPU_adress,PWR_MGMT_2, 0x04);
-}
-
-/* disable gyroscope Y axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::disable_gy()
-{
-  write_OR(MPU_adress,PWR_MGMT_2, 0x02);
-}
-
-/* disable gyroscope Z axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::disable_gz()
-{
-  write_OR(MPU_adress,PWR_MGMT_2, 0x01);
-}
-
-/* enable accelerometer X axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::enable_ax()
-{
-  write_AND(MPU_adress,PWR_MGMT_2, ~0x20);
-}
-
-/* enable accelerometer Y axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::enable_ay()
-{
-  write_AND(MPU_adress,PWR_MGMT_2, ~0x10);
-}
-
-/* enable accelerometer Y axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::enable_az()
-{
-  write_AND(MPU_adress,PWR_MGMT_2, ~0x8);
-}
-
-/* enable accelerometer Z axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::enable_gx()
-{
-  write_AND(MPU_adress,PWR_MGMT_2, ~0x04);
-}
-
-/* enable gyroscope Y axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::enable_gy()
-{
-  write_AND(MPU_adress,PWR_MGMT_2, ~0x02);
-}
-
-/* enable gyroscope Z axis
-Arguments: None
-Returns : None
-*/
-void MPU9255::enable_gz()
-{
-  write_AND(MPU_adress,PWR_MGMT_2, ~0x01);
 }
