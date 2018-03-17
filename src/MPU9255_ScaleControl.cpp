@@ -37,7 +37,7 @@ Returns : None
 void MPU9255::set_acc_scale(scales selected_scale)
 {
 	uint8_t val = read(MPU_address,ACCEL_CONFIG);//read old register value
-  val = getScale(val,selected_scale);
+  	val = getScale(val,selected_scale);
 	write(MPU_address,ACCEL_CONFIG,val);// commit changes
 }
 
@@ -49,6 +49,6 @@ Returns : None
 void MPU9255::set_gyro_scale(scales selected_scale)
 {
 	uint8_t val=read(MPU_address,GYRO_CONFIG);//read old register value
-  val = getScale(val,selected_scale);
+  	val = getScale(val,selected_scale);
 	write(MPU_address,GYRO_CONFIG,val);// commit changes
 }
