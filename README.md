@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Bill2462/MPU9255-Arduino-Library.svg?branch=V0.3)](https://travis-ci.org/Bill2462/MPU9255-Arduino-Library)
+
 # MPU9255-Arduino-Library
 
 Arduino library for MPU9255 accelerometer / gyroscope / magnetometer chip.
