@@ -1,14 +1,115 @@
-/*
-Example 2 :
-This example reads data from the sensors and calculates :
- - Acceleration in 'g' ( 1 g = 9.8 m/s^2)
- - Rotation speed in dps (degrees per second)
- - Magnetic flux density in μT.
-*/
-
 #include <MPU9255.h>// include MPU9255 library
 
+#define g 9.81 // 1g ~ 9.81 m/s^2
+#define magnetometer_cal 0.06 //magnetometer calibration
+
 MPU9255 mpu;
+
+//process raw acceleration data
+//input = raw reading from the sensor, sensor_scale = selected sensor scale
+//returns : acceleration in m/s^2
+double process_acceleration(int input, scales sensor_scale )
+{
+  /*
+  To get acceleration in 'g', each reading has to be divided by :
+   -> 16384 for +- 2g scale (default scale)
+   -> 8192  for +- 4g scale
+   -> 4096  for +- 8g scale
+   -> 2048  for +- 16g scale
+  */
+  double output = 1;
+
+  //for +- 2g
+
+  if(sensor_scale == scale_2g)
+  {
+    output = input;
+    output = output/16384;
+    output = output*g;
+  }
+
+  //for +- 4g
+  if(sensor_scale == scale_4g)
+  {
+    output = input;
+    output = output/8192;
+    output = output*g;
+  }
+
+  //for +- 8g
+  if(sensor_scale == scale_8g)
+  {
+    output = input;
+    output = output/4096;
+    output = output*g;
+  }
+
+  //for +-16g
+  if(sensor_scale == scale_16g)
+  {
+    output = input;
+    output = output/2048;
+    output = output*g;
+  }
+
+  return output;
+}
+
+//process raw gyroscope data
+//input = raw reading from the sensor, sensor_scale = selected sensor scale
+//returns : angular velocity in degrees per second
+double process_angular_velocity(int16_t input, scales sensor_scale )
+{
+  /*
+  To get rotation velocity in dps (degrees per second), each reading has to be divided by :
+   -> 131   for +- 250  dps scale (default value)
+   -> 65.5  for +- 500  dps scale
+   -> 32.8  for +- 1000 dps scale
+   -> 16.4  for +- 2000 dps scale
+  */
+
+  //for +- 250 dps
+  if(sensor_scale == scale_250dps)
+  {
+    return input/131;
+  }
+
+  //for +- 500 dps
+  if(sensor_scale == scale_500dps)
+  {
+    return input/65.5;
+  }
+
+  //for +- 1000 dps
+  if(sensor_scale == scale_1000dps)
+  {
+    return input/32.8;
+  }
+
+  //for +- 2000 dps
+  if(sensor_scale == scale_2000dps)
+  {
+    return input/16.4;
+  }
+
+  return 0;
+}
+
+//process raw magnetometer data
+//input = raw reading from the sensor, sensitivity =
+//returns : magnetic flux density in μT (in micro Teslas)
+double process_magnetic_flux(int16_t input, double sensitivity)
+{
+  /*
+  To get magnetic flux density in μT, each reading has to be multiplied by sensitivity
+  (Constant value different for each axis, stored in ROM), then multiplied by some number (calibration)
+  and then divided by 0.6 .
+  (Faced North each axis should output arround 31 µT without any metal / walls around
+  Note : This manetometer has really low initial calibration tolerance : +- 500 LSB !!!
+  Scale of the magnetometer is fixed -> +- 4800 μT.
+  */
+  return (input*magnetometer_cal*sensitivity)/0.6;
+}
 
 void setup() {
   Serial.begin(115200);// initialize Serial port
@@ -16,93 +117,51 @@ void setup() {
 }
 
 void loop() {
-// read data from all sensors
+  //take readings
   mpu.read_acc();
   mpu.read_gyro();
   mpu.read_mag();
-//save all readings to 'float' variables
-  float ax=mpu.ax;
-  float ay=mpu.ay;
-  float az=mpu.az;
 
-  float gx=mpu.gx;
-  float gy=mpu.gy;
-  float gz=mpu.gz;
+  ////process and print acceleration data////
+  //X axis
+  Serial.print("AX: ");
+  Serial.print(process_acceleration(mpu.ax,scale_2g));
 
-  float mx=mpu.mx;
-  float my=mpu.my;
-  float mz=mpu.mz;
+  //Y axis
+  Serial.print("  AY: ");
+  Serial.print(process_acceleration(mpu.ay,scale_2g));
+
+  //Z axis
+  Serial.print("  AY: ");
+  Serial.print(process_acceleration(mpu.az,scale_2g));
 
 
-// do the math :
+  ////process and print gyroscope data////
+  //X axis
+  Serial.print("      GX: ");
+  Serial.print(process_angular_velocity(mpu.gx,scale_250dps));
 
-//---- Acceleration ----
-/*
-To get acceleration in 'g', each reading has to be divided by :
- -> 16384 for +- 2g scale (default value)
- -> 8192  for +- 4g scale
- -> 4096  for +- 8g scale
- -> 2048  for +- 16g scale
-*/
-ax=ax/16384;
-ay=ay/16384;
-az=az/16384;
+  //Y axis
+  Serial.print("  GY: ");
+  Serial.print(process_angular_velocity(mpu.gy,scale_250dps));
 
-//---- Gyroscope data ----
-/*
-To get rotation in dps (degrees per second), each reading has to be divided by :
- -> 131   for +- 250  dps scale (default value)
- -> 65.5  for +- 500  dps scale
- -> 32.8  for +- 1000 dps scale
- -> 16.4  for +- 2000 dps scale
+  //Z axis
+  Serial.print("  GZ: ");
+  Serial.print(process_angular_velocity(mpu.gz,scale_250dps));
 
-*/
-gx=gx/131;
-gy=gy/131;
-gz=gz/131;
 
-//---- Magnetic flux ----
-/*
-To get magnetic flux density in μT, each reading has to be multiplied by some number (calibration) and then divided by 0.6.
-(Faced North each axis should output arround 31 µT) (without any metal / walls around)
-Note : This manetometer has really low initial calibration tolerance : +- 500 unit ( 833,3 μT ) !!!
-Scale of the magnetometer is fixed -> +- 4800 μT.
-*/
-const float cal=0.06;
-mx=mx*cal;
-my=my*cal;
-mz=mz*cal;
-mx=mx/0.6;
-my=my/0.6;
-mz=mz/0.6;
+  ////process and print magnetometer data////
+  //X axis
+  Serial.print("      MX: ");
+  Serial.print(process_magnetic_flux(mpu.mx,mpu.mx_sensitivity));
 
-// print all data
-Serial.print("AX: ");
-Serial.print(ax);
-Serial.print(" g");
-Serial.print(" AY: ");
-Serial.print(ay);
-Serial.print(" g");
-Serial.print(" AZ: ");
-Serial.print(az);
-Serial.print(" g");
-Serial.print("     GX: ");
-Serial.print(gx);
-Serial.print(" dps");
-Serial.print(" GY: ");
-Serial.print(gy);
-Serial.print(" dps");
-Serial.print(" GZ: ");
-Serial.print(gz);
-Serial.print(" dps");
-Serial.print("     MX: ");
-Serial.print(mx);
-Serial.print(" qT");
-Serial.print(" MY: ");
-Serial.print(my);
-Serial.print(" qT");
-Serial.print(" MZ: ");
-Serial.print(mz);
-Serial.println(" qT");
+  //Y axis
+  Serial.print("  MY: ");
+  Serial.print(process_magnetic_flux(mpu.my,mpu.my_sensitivity));
+
+  //Z axis
+  Serial.print("  MZ: ");
+  Serial.println(process_magnetic_flux(mpu.mz,mpu.mz_sensitivity));
+
   delay(100);
 }

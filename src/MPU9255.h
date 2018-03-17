@@ -56,8 +56,13 @@ public:
     CONFIG            = 0x1A,
     SMPLRT_DIV        = 0x19,
     INT_ENABLE        = 0x38,
+
+    //magnetometer
     CNTL              = 0x0A,
     CNTL2             = 0x0B,
+    ASAX              = 0x10,
+    ASAY              = 0x11,
+    ASAZ              = 0x12,
 
     /// data registers
     MAG_XOUT_L        = 0x03,//magnetometer
@@ -102,6 +107,8 @@ public:
   void sleep_disable();//disable sleep mode
   void disable(modules selected_module);//disable something
   void enable(modules selected_module);//enable something
+
+  double mx_sensitivity, my_sensitivity, mz_sensitivity;//magnetometer mx_sensitivity for compensation
 
   private:
   void requestBytes(uint8_t address, uint8_t subAddress, uint8_t bytes);//request bytes from some device
