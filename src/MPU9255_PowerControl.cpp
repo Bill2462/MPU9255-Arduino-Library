@@ -7,7 +7,7 @@ Returns : None
 */
 void MPU9255::Hreset()
 {
-  write(MPU_adress,PWR_MGMT_1, 0x80);//write 1 to the hard reset bit in PWR_MGMT_1 register
+  write(MPU_address,PWR_MGMT_1, 0x80);//write 1 to the hard reset bit in PWR_MGMT_1 register
 }
 
 /* Put main chip in a sleep mode
@@ -16,7 +16,7 @@ Returns : None
 */
 void MPU9255::sleep_enable()
 {
-  write(MPU_adress,PWR_MGMT_1, 0x40);//set sleep bit to 1
+  write(MPU_address,PWR_MGMT_1, 0x40);//set sleep bit to 1
 }
 
 /* disable sleep mode
@@ -25,7 +25,7 @@ Returns : None
 */
 void MPU9255::sleep_disable()
 {
-  write(MPU_adress,PWR_MGMT_1, 0x00);//clear the sleep bit
+  write(MPU_address,PWR_MGMT_1, 0x00);//clear the sleep bit
   delay(500);//wait until module stabilizes
 }
 
@@ -33,27 +33,27 @@ void MPU9255::reset(modules selected_module)
 {
   if(selected_module == accelerometer)
   {
-    write(MPU_adress,SIGNAL_PATH_RESET, 0x02);
+    write(MPU_address,SIGNAL_PATH_RESET, 0x02);
   }
 
   if(selected_module == gyroscope)
   {
-    write(MPU_adress,SIGNAL_PATH_RESET, 0x04);
+    write(MPU_address,SIGNAL_PATH_RESET, 0x04);
   }
 
   if(selected_module == thermometer)
   {
-    write(MPU_adress,SIGNAL_PATH_RESET, 0x01);
+    write(MPU_address,SIGNAL_PATH_RESET, 0x01);
   }
 
   if(selected_module == signalPaths)
   {
-      write_OR(MPU_adress,USER_CTRL, 0x01);
+      write_OR(MPU_address,USER_CTRL, 0x01);
   }
 
   if(selected_module == magnetometer)
   {
-      write(MAG_adress,CNTL2, 0x01);
+      write(MAG_address,CNTL2, 0x01);
   }
 }
 
@@ -61,37 +61,37 @@ void MPU9255::disable(modules selected_module)
 {
   if(selected_module == AX)
   {
-    write_OR(MPU_adress,PWR_MGMT_2, 0x20);
+    write_OR(MPU_address,PWR_MGMT_2, 0x20);
   }
 
   if(selected_module == AY)
   {
-    write_OR(MPU_adress,PWR_MGMT_2, 0x10);
+    write_OR(MPU_address,PWR_MGMT_2, 0x10);
   }
 
   if(selected_module == AZ)
   {
-    write_OR(MPU_adress,PWR_MGMT_2, 0x08);
+    write_OR(MPU_address,PWR_MGMT_2, 0x08);
   }
 
   if(selected_module == GX)
   {
-    write_OR(MPU_adress,PWR_MGMT_2, 0x04);
+    write_OR(MPU_address,PWR_MGMT_2, 0x04);
   }
 
   if(selected_module == GY)
   {
-    write_OR(MPU_adress,PWR_MGMT_2, 0x02);
+    write_OR(MPU_address,PWR_MGMT_2, 0x02);
   }
 
   if(selected_module == GZ)
   {
-    write_OR(MPU_adress,PWR_MGMT_2, 0x01);
+    write_OR(MPU_address,PWR_MGMT_2, 0x01);
   }
 
   if(selected_module == magnetometer)
   {
-    write(MAG_adress,CNTL, 0x00);
+    write(MAG_address,CNTL, 0x00);
   }
 
 }
@@ -100,36 +100,36 @@ void MPU9255::enable(modules selected_module)
 {
   if(selected_module == AX)
   {
-    write_AND(MPU_adress,PWR_MGMT_2, ~0x20);
+    write_AND(MPU_address,PWR_MGMT_2, ~0x20);
   }
 
   if(selected_module == AY)
   {
-    write_AND(MPU_adress,PWR_MGMT_2, ~0x10);
+    write_AND(MPU_address,PWR_MGMT_2, ~0x10);
   }
 
   if(selected_module == AZ)
   {
-    write_AND(MPU_adress,PWR_MGMT_2, ~0x8);
+    write_AND(MPU_address,PWR_MGMT_2, ~0x8);
   }
 
   if(selected_module == GX)
   {
-    write_AND(MPU_adress,PWR_MGMT_2, ~0x04);
+    write_AND(MPU_address,PWR_MGMT_2, ~0x04);
   }
 
   if(selected_module == GY)
   {
-    write_AND(MPU_adress,PWR_MGMT_2, ~0x02);
+    write_AND(MPU_address,PWR_MGMT_2, ~0x02);
   }
 
   if(selected_module == GZ)
   {
-    write_AND(MPU_adress,PWR_MGMT_2, ~0x01);
+    write_AND(MPU_address,PWR_MGMT_2, ~0x01);
   }
 
   if(selected_module == magnetometer)
   {
-    write(MAG_adress,CNTL, 0x16);
+    write(MAG_address,CNTL, 0x16);
   }
 }
