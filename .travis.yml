@@ -16,3 +16,5 @@ script:
   - arduino --verify --board arduino:avr:uno $PWD/examples/dataProcessing/dataProcessing.ino
   - arduino --verify --board arduino:avr:uno $PWD/examples/rawData/rawData.ino
   - arduino --verify --board arduino:avr:uno $PWD/examples/scaleExample/scaleExample.ino
+  - arduino --verify --board arduino:avr:uno $PWD/examples/powerControl/powerControl.ino
+  - arduino --verify --board arduino:avr:uno $PWD/examples/sleepExample/sleepExample.ino
