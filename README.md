@@ -1,7 +1,11 @@
 # MPU9255-Arduino-Library
 [![Build Status](https://travis-ci.org/Bill2462/MPU9255-Arduino-Library.svg?branch=master)](https://travis-ci.org/Bill2462/MPU9255-Arduino-Library)
+![](https://img.shields.io/badge/language-C%2B%2B-brightgreen.svg)
+![](https://img.shields.io/badge/platform-arduino-brightgreen.svg)
+[![License](https://img.shields.io/github/license/Bill2462/MPU9255-Arduino-Library.svg?maxAge=3600)](LICENSE)
 
 Arduino library for MPU9255 based modules. 
+
 
 Read acceleration, angular velocity and magnetic flux density on your Arduino board using MPU9266 based IMU module connected via the I2C interface. 
 
