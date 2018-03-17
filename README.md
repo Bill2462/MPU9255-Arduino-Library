@@ -1,6 +1,5 @@
-[![Build Status](https://travis-ci.org/Bill2462/MPU9255-Arduino-Library.svg?branch=V0.3)](https://travis-ci.org/Bill2462/MPU9255-Arduino-Library)
-
 # MPU9255-Arduino-Library
+[![Build Status](https://travis-ci.org/Bill2462/MPU9255-Arduino-Library.svg?branch=master)](https://travis-ci.org/Bill2462/MPU9255-Arduino-Library)
 
 Arduino library for MPU9255 accelerometer / gyroscope / magnetometer chip.
 
@@ -18,7 +17,7 @@ Arduino library for MPU9255 accelerometer / gyroscope / magnetometer chip.
 4. Select downloaded archive and click open.
 
 ## Examples
-Library contains 4 examples :
+Library contains 3 examples :
 - rawData : Reads raw data from the sensors.
 - dataProcessing : Reads data and processes them to get some useful information.
 - scaleExample : Demonstrates all available scales.
