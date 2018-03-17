@@ -4,6 +4,35 @@
 #include <Arduino.h>
 #include <Wire.h>
 
+///modules (for enable / disable / reset functions)
+enum modules
+{
+  AX,//accelerometer X axis
+  AY,//accelerometer Y axis
+  AZ,//accelerometer Z axis
+  GX,//gyroscope X axis
+  GY,//gyroscope Y axis
+  GZ,//gyroscope Z axis
+  magnetometer,//magnetometer
+  accelerometer,//accelerometer
+  gyroscope,//gyroscope
+  thermometer,//thermometer
+  signalPaths,//all signal paths
+};
+
+//available scales
+enum scales
+{
+  scale_2g,//+-2g
+  scale_4g,//+-4g
+  scale_8g,//+-8g
+  scale_16g,//+-16g
+  scale_250dps,//+-250 degrees per second
+  scale_500dps,//+- 500 degrees per second
+  scale_1000dps,//+- 1000 degrees per second
+  scale_2000dps,//+- 2000 degrees per second
+};
+
 class MPU9255
 {
 public:
@@ -12,8 +41,8 @@ public:
   enum registers
   {
     //sensor adresses
-    MAG_adress        = 0x0C,//magnetometer
-    MPU_adress        = 0x68,//main chip
+    MAG_address        = 0x0C,//magnetometer
+    MPU_address        = 0x68,//main chip
 
     //main chip
     USER_CTRL         = 0x6A,
@@ -38,22 +67,6 @@ public:
 
   };
 
-  ///modules list (for enable / disable / reset functions)
-  enum modules
-  {
-    AX,//accelerometer X axis
-    AY,//accelerometer Y axis
-    AZ,//accelerometer Z axis
-    GX,//gyroscope X axis
-    GY,//gyroscope Y axis
-    GZ,//gyroscope Z axis
-    magnetometer,//magnetometer
-    accelerometer,//accelerometer
-    gyroscope,//gyroscope
-    thermometer,//thermometer
-    signalPaths,//all signal paths
-  };
-
   //acceleration data
   int16_t ax=0;//X axis
   int16_t ay=0;//Y axis
@@ -71,8 +84,8 @@ public:
 
   //general control
   void init();//Initialize magnetometer and IMU
-  void set_acc_scale(unsigned char value);//Set accelerometer scale
-  void set_gyro_scale(unsigned char value);//Set gyroscope scale
+  void set_acc_scale(scales selected_scale);//Set accelerometer scale
+  void set_gyro_scale(scales selected_scale);//Set gyroscope scale
 
   //reset
   void Hreset();//Hard reset - Resets entire chip (call of init function is required to use chip afterwards)
@@ -91,10 +104,14 @@ public:
   void enable(modules selected_module);//enable something
 
   private:
+  void requestBytes(uint8_t address, uint8_t subAddress, uint8_t bytes);//request bytes from some device
   uint8_t read(uint8_t address, uint8_t subAddress);//read one byte from register
+  void readArray(uint8_t *output, char size);//read an array of bytes
   void write(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register
   void write_OR(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register (with OR operation)
   void write_AND(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register (with AND operation)
+  int16_t uint8ToUint16(uint8_t Lbyte, uint8_t Hbyte);//put together two bytes into one 16 bit variable
+  uint8_t getScale(uint8_t current_state, scales selected_scale);//get register value for a scale
 };
 
 #endif
