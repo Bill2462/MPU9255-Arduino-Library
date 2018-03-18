@@ -1,4 +1,5 @@
 ## MPU9255 Arduino Library documentation
+[![GitHub release](https://img.shields.io/github/release/Bill2462/MPU9255-Arduino-Library.svg?maxAge=3600)](https://github.com/Bill2462/MPU9255-Arduino-Library/releases/latest)
 
 ### Classes : 
 
