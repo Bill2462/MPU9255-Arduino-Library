@@ -32,5 +32,5 @@ Library is compatible with arduino IDE 1.6 or newer.
 3. Go to : sketch -> include library and select "add .zip library" option. 
 4. Select location of downloaded library and click "open". 
 
-## Library reference
-https://github.com/Bill2462/MPU9255-Arduino-Library/wiki
+## Library documentation
+https://github.com/Bill2462/MPU9255-Arduino-Library/doc.md
