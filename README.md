@@ -7,7 +7,7 @@
 Arduino library for MPU9255 based modules. 
 
 
-Read acceleration, angular velocity and magnetic flux density on your Arduino board using MPU9266 based IMU module connected via the I2C interface. 
+Read acceleration, angular velocity and magnetic field strength on your Arduino board using MPU9266 based IMU module connected via the I2C interface. 
 
 ## What works ?
 - Acceleration, angular velocity, magnetic field measurements. 
