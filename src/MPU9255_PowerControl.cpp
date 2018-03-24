@@ -59,32 +59,32 @@ void MPU9255::reset(modules selected_module)
 
 void MPU9255::disable(modules selected_module)
 {
-  if(selected_module == AX)
+  if(selected_module == Acc_X)
   {
     write_OR(MPU_address,PWR_MGMT_2, 0x20);
   }
 
-  if(selected_module == AY)
+  if(selected_module == Acc_Y)
   {
     write_OR(MPU_address,PWR_MGMT_2, 0x10);
   }
 
-  if(selected_module == AZ)
+  if(selected_module == Acc_Z)
   {
     write_OR(MPU_address,PWR_MGMT_2, 0x08);
   }
 
-  if(selected_module == GX)
+  if(selected_module == Gyro_X)
   {
     write_OR(MPU_address,PWR_MGMT_2, 0x04);
   }
 
-  if(selected_module == GY)
+  if(selected_module == Gyro_Y)
   {
     write_OR(MPU_address,PWR_MGMT_2, 0x02);
   }
 
-  if(selected_module == GZ)
+  if(selected_module == Gyro_Z)
   {
     write_OR(MPU_address,PWR_MGMT_2, 0x01);
   }
@@ -98,32 +98,32 @@ void MPU9255::disable(modules selected_module)
 
 void MPU9255::enable(modules selected_module)
 {
-  if(selected_module == AX)
+  if(selected_module == Acc_X)
   {
     write_AND(MPU_address,PWR_MGMT_2, ~0x20);
   }
 
-  if(selected_module == AY)
+  if(selected_module == Acc_Y)
   {
     write_AND(MPU_address,PWR_MGMT_2, ~0x10);
   }
 
-  if(selected_module == AZ)
+  if(selected_module == Acc_Z)
   {
     write_AND(MPU_address,PWR_MGMT_2, ~0x8);
   }
 
-  if(selected_module == GX)
+  if(selected_module == Gyro_X)
   {
     write_AND(MPU_address,PWR_MGMT_2, ~0x04);
   }
 
-  if(selected_module == GY)
+  if(selected_module == Gyro_Y)
   {
     write_AND(MPU_address,PWR_MGMT_2, ~0x02);
   }
 
-  if(selected_module == GZ)
+  if(selected_module == Gyro_Z)
   {
     write_AND(MPU_address,PWR_MGMT_2, ~0x01);
   }
