@@ -96,37 +96,37 @@ void loop() {
 
 	//enable accelerometer X axis
 	Serial.println("Enabling accelerometer X axis...");
-	mpu.enable(AX);
+	mpu.enable(Acc_X);
 	print_data();
 	Serial.println();
 
 	//enable accelerometer Y axis
 	Serial.println("Enabling accelerometer Y axis...");
-	mpu.enable(AY);
+	mpu.enable(Acc_Y);
 	print_data();
 	Serial.println();
 
 	//enable accelerometer Z axis
 	Serial.println("Enabling accelerometer Z axis...");
-	mpu.enable(AZ);
+	mpu.enable(Acc_Z);
 	print_data();
 	Serial.println();
 
 	//enable gyroscope X axis
 	Serial.println("Enabling gyroscope X axis...");
-	mpu.enable(GX);
+	mpu.enable(Gyro_X);
 	print_data();
 	Serial.println();
 
 	//enable gyroscope Y axis
 	Serial.println("Enabling  gyroscope Y axis...");
-	mpu.enable(GY);
+	mpu.enable(Gyro_Y);
 	print_data();
 	Serial.println();
 
 	//enable gyroscope Z axis
 	Serial.println("Enabling gyroscope Z axis...");
-	mpu.enable(GZ);
+	mpu.enable(Gyro_Z);
 	print_data();
 	Serial.println();
 }
