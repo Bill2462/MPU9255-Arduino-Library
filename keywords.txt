@@ -10,35 +10,86 @@
 MPU9255	KEYWORD1
 
 #######################################
+# Constants (LITERAL1)
+#######################################
+Acc_X	LITERAL1
+Acc_Y	LITERAL1
+Acc_Z	LITERAL1
+Gyro_X	LITERAL1
+Gyro_Y	LITERAL1
+Gyro_Z	LITERAL1
+magnetometer	LITERAL1
+accelerometer	LITERAL1
+gyroscope	LITERAL1
+thermometer	LITERAL1
+signalPaths	LITERAL1
+scale_2g	LITERAL1
+scale_4g	LITERAL1
+scale_8g	LITERAL1
+scale_16g	LITERAL1
+scale_250dps	LITERAL1
+scale_500dps	LITERAL1
+scale_1000dps	LITERAL1
+scale_2000dps	LITERAL1
+X_axis	LITERAL1
+Y_axis	LITERAL1
+Z_axis	LITERAL1
+gyro_8800Hz	LITERAL1
+gyro_3600Hz	LITERAL1
+gyro_250Hz	LITERAL1
+gyro_184Hz	LITERAL1
+gyro_92Hz	LITERAL1
+gyro_41Hz	LITERAL1
+gyro_20Hz	LITERAL1
+gyro_10Hz	LITERAL1
+gyro_5Hz	LITERAL1
+acc_1113Hz	LITERAL1
+acc_460Hz	LITERAL1
+acc_184Hz	LITERAL1
+acc_92Hz	LITERAL1
+acc_41Hz	LITERAL1
+acc_20Hz	LITERAL1
+acc_10Hz	LITERAL1
+acc_5Hz	LITERAL1
+active_low	LITERAL1
+active_high	LITERAL1
+open_drain	LITERAL1
+push_pull	LITERAL1
+pulse_output	LITERAL1
+latched_output	LITERAL1
+motion_interrupt	LITERAL1
+FIFO_overflow_interrupt	LITERAL1
+Fsync_interrupt	LITERAL1
+raw_rdy_interrupt	LITERAL1
+
+
+#######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
 init	KEYWORD2
-read_mag	KEYWORD2
-read_gyro	KEYWORD2
-read_acc	KEYWORD2
 set_acc_scale	KEYWORD2
 set_gyro_scale	KEYWORD2
-read_temp	KEYWORD2
+set_acc_offset	KEYWORD2
+set_gyro_offset	KEYWORD2
+set_acc_bandwidth	KEYWORD2
+set_gyro_bandwidth	KEYWORD2
+set_INT_active_state	KEYWORD2
+set_INT_pin_mode	KEYWORD2
+enable_interrupt_output	KEYWORD2
+disable_interrupt_output	KEYWORD2
+set_INT_signal_mode	KEYWORD2
+clear_interrupt	KEYWORD2
+set_motion_threshold_level	KEYWORD2
+enable_motion_interrupt	KEYWORD2
+disable_motion_interrput	KEYWORD2
 Hreset	KEYWORD2
-gyro_RST	KEYWORD2
-acc_RST	KEYWORD2
-temp_RST	KEYWORD2
-SIG_COND_RST	KEYWORD2
-mag_SoftRST	KEYWORD2
-mag_PWRD	KEYWORD2
-mag_PWRU	KEYWORD2
+reset	KEYWORD2
+read_acc	KEYWORD2
+read_gyro	KEYWORD2
+read_mag	KEYWORD2
+read_temp	KEYWORD2
 sleep_enable	KEYWORD2
 sleep_disable	KEYWORD2
-disable_ax	KEYWORD2
-disable_ay	KEYWORD2
-disable_az	KEYWORD2
-disable_gx	KEYWORD2
-disable_gy	KEYWORD2
-disable_gz	KEYWORD2
-enable_ax	KEYWORD2
-enable_ay	KEYWORD2
-enable_az	KEYWORD2
-enable_gx	KEYWORD2
-enable_gy	KEYWORD2
-enable_gz	KEYWORD2
+disable	KEYWORD2
+enable	KEYWORD2
