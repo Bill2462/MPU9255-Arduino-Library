@@ -4,7 +4,7 @@
 void MPU9255::set_INT_signal_mode(interrupt_pin selected_mode)
 {
   //if latch mode is selected
-  if(selected_mode == latch)
+  if(selected_mode == latched_output)
   {
     write_OR(MPU_address,INT_PIN_CFG,(1<<5));//set LATCH_INT_EN bit
   }
@@ -69,19 +69,19 @@ void MPU9255::disable_interrupt_output(interrupts selected_interrupt)
 {
   switch(selected_interrupt)
   {
-    case motion:
+    case motion_interrupt:
       write_OR(MPU_address,INT_ENABLE,~(1<<6));
       break;
 
-    case FIFO_overflow:
+    case FIFO_overflow_interrupt:
       write_OR(MPU_address,INT_ENABLE,~(1<<4));
       break;
 
-    case Fsync:
+    case Fsync_interrupt:
       write_OR(MPU_address,INT_ENABLE,~(1<<3));
       break;
 
-    case raw_rdy:
+    case raw_rdy_interrupt:
       write_OR(MPU_address,INT_ENABLE,~(1<<0));
       break;
   }
