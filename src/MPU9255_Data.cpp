@@ -1,78 +1,66 @@
 #include "MPU9255.h"
 #include "Arduino.h"
 
-
-void MPU9255::requestBytes(uint8_t address, uint8_t subAddress, uint8_t bytes)
+int16_t MPU9255::uint8ToUint16(uint8_t Lbyte, uint8_t Hbyte)
 {
-  Wire.beginTransmission(address);
-  Wire.write(subAddress);
-  Wire.endTransmission(false);
-  Wire.requestFrom(address, bytes);
+  return ((int16_t)Hbyte << 8) | Lbyte;
 }
 
-void MPU9255::readArray(uint8_t *output, char size)
-{
-  for(char i = 0; i<size; i++)
-  {
-    output[i] = Wire.read();//read byte and put it into rawData table
-  }
-}
-
-/* Read one byte of data from the sensor
-Arguments:
-- address - address of the device
-- subAddress - address of the register
-Returns : Contents of the readed register (one byte)
-*/
-uint8_t MPU9255::read(uint8_t address, uint8_t subAddress)
-{
-  uint8_t data;
-  requestBytes(address,subAddress,1);
-  data = Wire.read();
-  return data;
-}
-
-/* Write one byte to the register
-Arguments:
-- address - address of the device
-- subAddress - address of the register
-- data - one byte of data that we want to put in the register
+/* Read data from the accelerometer
+Arguments: None
 Returns : None
 */
-void MPU9255::write(uint8_t address, uint8_t subAddress, uint8_t data)
+void MPU9255::read_acc()
 {
-  Wire.beginTransmission(address);
-  Wire.write(subAddress);
-  Wire.write(data);
-  Wire.endTransmission();
+  requestBytes(MPU_address, ACCEL_XOUT_H, 6);//request data from the accelerometer
+
+  uint8_t rawData[6];
+  readArray(rawData,6);
+
+  ax = uint8ToUint16(rawData[1], rawData[0]);
+  ay = uint8ToUint16(rawData[3], rawData[2]);
+  az = uint8ToUint16(rawData[5], rawData[4]);
 }
 
-/* Perform OR operation on a register state and a data byte and write
-result into the register.
-Arguments:
-- address - address of the device
-- subAddress - address of the register
-- data - one byte of data that we want to put in the register
+/* Read data from the gyroscope
+Arguments: None
 Returns : None
 */
-void MPU9255::write_OR(uint8_t address, uint8_t subAddress, uint8_t data)
+void MPU9255::read_gyro()
 {
-  uint8_t c = read(address,subAddress);
-  c = c | data;
-  write(address,subAddress,c);
+  requestBytes(MPU_address, GYRO_XOUT_H, 6);
+
+  uint8_t rawData[6];//bufor
+  readArray(rawData,6);
+
+  //dump reading into output variables
+  gx = uint8ToUint16(rawData[1], rawData[0]);
+  gy = uint8ToUint16(rawData[3], rawData[2]);
+  gz = uint8ToUint16(rawData[5], rawData[4]);
 }
 
-/* Perform AND operation on a register state and a data byte and write
-result into the register.
-Arguments:
-- address - address of the device
-- subAddress - address of the register
-- data - one byte of data that we want to put in the register
+/* Read data from the magnetometer
+Arguments: None
 Returns : None
 */
-void MPU9255::write_AND(uint8_t address, uint8_t subAddress, uint8_t data)
+void MPU9255::read_mag()
 {
-  uint8_t c = read(address,subAddress);
-  c = c & data;
-  write(address,subAddress,c);
+  requestBytes(MAG_address, MAG_XOUT_L, 6);
+
+  uint8_t rawData[6];
+  readArray(rawData,6);
+
+  mx = uint8ToUint16(rawData[1], rawData[0]);
+  my = uint8ToUint16(rawData[3], rawData[2]);
+  mz = uint8ToUint16(rawData[5], rawData[4]);
+}
+
+int16_t MPU9255::read_temp()
+{
+  requestBytes(MPU_address, TEMP_OUT_H, 2);
+
+  uint8_t rawData[2];
+  readArray(rawData,2);
+
+  return uint8ToUint16(rawData[1], rawData[0]);
 }
