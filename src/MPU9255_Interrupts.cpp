@@ -47,19 +47,19 @@ void MPU9255::enable_interrupt_output(interrupts selected_interrupt)
 {
   switch(selected_interrupt)
   {
-    case motion:
+    case motion_interrupt:
       write_OR(MPU_address,INT_ENABLE,(1<<6));
       break;
 
-    case FIFO_overflow:
+    case FIFO_overflow_interrupt:
       write_OR(MPU_address,INT_ENABLE,(1<<4));
       break;
 
-    case Fsync:
+    case Fsync_interrupt:
       write_OR(MPU_address,INT_ENABLE,(1<<3));
       break;
 
-    case raw_rdy:
+    case raw_rdy_interrupt:
       write_OR(MPU_address,INT_ENABLE,(1<<0));
       break;
   }
