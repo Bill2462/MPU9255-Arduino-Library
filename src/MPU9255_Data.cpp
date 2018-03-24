@@ -57,7 +57,7 @@ void MPU9255::read_mag()
 
 int16_t MPU9255::read_temp()
 {
-  requestBytes(MAG_address, TEMP_OUT_H, 2);
+  requestBytes(MPU_address, TEMP_OUT_H, 2);
 
   uint8_t rawData[2];
   readArray(rawData,2);
