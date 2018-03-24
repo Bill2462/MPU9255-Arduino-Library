@@ -34,19 +34,19 @@ void MPU9255::set_gyro_offset(axis selected_axis, int16_t offset)
 {
   switch(selected_axis)
   {
-    case X:
+    case X_axis:
       offset = offset + GX_offset;
       write(MPU_address,XG_OFFSET_L,(offset & 0x00FF));
       write(MPU_address,XG_OFFSET_H,(offset>>8));
       break;
 
-    case Y:
+    case Y_axis:
       offset = offset + GY_offset;
       write(MPU_address,YG_OFFSET_L,(offset & 0x00FF));
       write(MPU_address,YG_OFFSET_H,(offset>>8));
       break;
 
-    case Z:
+    case Z_axis:
       offset = offset + GZ_offset;
       write(MPU_address,ZG_OFFSET_L,(offset & 0x00FF));
       write(MPU_address,ZG_OFFSET_H,(offset>>8));
@@ -58,19 +58,19 @@ void MPU9255::set_acc_offset(axis selected_axis, int16_t offset)
 {
   switch(selected_axis)
   {
-    case X:
+    case X_axis:
       offset = offset + AX_offset;
       write(MPU_address,XA_OFFSET_L,(offset & 0x00FF));
       write(MPU_address,XA_OFFSET_H,(offset>>8));
       break;
 
-    case Y:
+    case Y_axis:
       offset = offset + AY_offset;
       write(MPU_address,YA_OFFSET_L,(offset & 0x00FF));
       write(MPU_address,YA_OFFSET_H,(offset>>8));
       break;
 
-    case Z:
+    case Z_axis:
       offset = offset + AZ_offset;
       write(MPU_address,ZA_OFFSET_L,(offset & 0x00FF));
       write(MPU_address,ZA_OFFSET_H,(offset>>8));

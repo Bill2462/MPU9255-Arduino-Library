@@ -52,37 +52,37 @@ void loop() {
 
 	//disable accelerometer X axis
 	Serial.println("Disabling accelerometer X axis...");
-	mpu.disable(AX);
+	mpu.disable(Acc_X);
 	print_data();
 	Serial.println();
 
 	//disable accelerometer Y axis
 	Serial.println("Disabling accelerometer Y axis...");
-	mpu.disable(AY);
+	mpu.disable(Acc_Y);
 	print_data();
 	Serial.println();
 
 	//disable accelerometer Z axis
 	Serial.println("Disabling accelerometer Z axis...");
-	mpu.disable(AZ);
+	mpu.disable(Acc_Z);
 	print_data();
 	Serial.println();
 
 	//disable gyroscope X axis
 	Serial.println("Disabling gyroscope X axis...");
-	mpu.disable(GX);
+	mpu.disable(Gyro_X);
 	print_data();
 	Serial.println();
 
 	//disable gyroscope Y axis
 	Serial.println("Disabling  gyroscope Y axis...");
-	mpu.disable(GY);
+	mpu.disable(Gyro_Y);
 	print_data();
 	Serial.println();
 
 	//disable gyroscope Z axis
 	Serial.println("Disabling gyroscope Z axis...");
-	mpu.disable(GZ);
+	mpu.disable(Gyro_Z);
 	print_data();
 	Serial.println();
 
@@ -96,37 +96,37 @@ void loop() {
 
 	//enable accelerometer X axis
 	Serial.println("Enabling accelerometer X axis...");
-	mpu.enable(AX);
+	mpu.enable(Acc_X);
 	print_data();
 	Serial.println();
 
 	//enable accelerometer Y axis
 	Serial.println("Enabling accelerometer Y axis...");
-	mpu.enable(AY);
+	mpu.enable(Acc_Y);
 	print_data();
 	Serial.println();
 
 	//enable accelerometer Z axis
 	Serial.println("Enabling accelerometer Z axis...");
-	mpu.enable(AZ);
+	mpu.enable(Acc_Z);
 	print_data();
 	Serial.println();
 
 	//enable gyroscope X axis
 	Serial.println("Enabling gyroscope X axis...");
-	mpu.enable(GX);
+	mpu.enable(Gyro_X);
 	print_data();
 	Serial.println();
 
 	//enable gyroscope Y axis
 	Serial.println("Enabling  gyroscope Y axis...");
-	mpu.enable(GY);
+	mpu.enable(Gyro_Y);
 	print_data();
 	Serial.println();
 
 	//enable gyroscope Z axis
 	Serial.println("Enabling gyroscope Z axis...");
-	mpu.enable(GZ);
+	mpu.enable(Gyro_Z);
 	print_data();
 	Serial.println();
 }

@@ -7,12 +7,12 @@
 ///modules (for enable / disable / reset functions)
 enum modules
 {
-  AX,//accelerometer X axis
-  AY,//accelerometer Y axis
-  AZ,//accelerometer Z axis
-  GX,//gyroscope X axis
-  GY,//gyroscope Y axis
-  GZ,//gyroscope Z axis
+  Acc_X,//accelerometer X axis
+  Acc_Y,//accelerometer Y axis
+  Acc_Z,//accelerometer Z axis
+  Gyro_X,//gyroscope X axis
+  Gyro_Y,//gyroscope Y axis
+  Gyro_Z,//gyroscope Z axis
   magnetometer,//magnetometer
   accelerometer,//accelerometer
   gyroscope,//gyroscope
@@ -36,9 +36,9 @@ enum scales
 //axis
 enum axis
 {
-  X,
-  Y,
-  Z,
+  X_axis,
+  Y_axis,
+  Z_axis,
 };
 
 //bandwidth
@@ -71,17 +71,17 @@ enum interrupt_pin
   active_high,//interrupt pin gets high when active
   open_drain,//open drain mode
   push_pull,//push-pull mode
-  pulse,//pulse type output
-  latch,//latch type output
+  pulse_output,//pulse type output
+  latched_output,//latch type output
 };
 
 //available interrupts
 enum interrupts
 {
-  motion,//motion detection
-  FIFO_overflow,//fifo overflow
-  Fsync,//fsync interrupts
-  raw_rdy,//raw readings ready
+  motion_interrupt,//motion detection
+  FIFO_overflow_interrupt,//fifo overflow
+  Fsync_interrupt,//fsync interrupts
+  raw_rdy_interrupt,//raw readings ready
 };
 
 class MPU9255
