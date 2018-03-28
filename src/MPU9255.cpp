@@ -20,14 +20,23 @@ void MPU9255::init()
   my_sensitivity = (((read(MAG_address, ASAY)-128)*0.5)/128)+1;
   mz_sensitivity = (((read(MAG_address, ASAZ)-128)*0.5)/128)+1;
 
-  ///read base offset from the accelerometer and the gyroscope
-  AX_offset = uint8ToUint16(read(MPU_address,XA_OFFSET_L), read(MPU_address,XA_OFFSET_H));
-  AY_offset = uint8ToUint16(read(MPU_address,YA_OFFSET_L), read(MPU_address,YA_OFFSET_H));
-  AZ_offset = uint8ToUint16(read(MPU_address,ZA_OFFSET_L), read(MPU_address,ZA_OFFSET_H));
-
+  ///read base offset from the gyroscope
   GX_offset = uint8ToUint16(read(MPU_address,XG_OFFSET_L), read(MPU_address,XG_OFFSET_H));
   GY_offset = uint8ToUint16(read(MPU_address,YG_OFFSET_L), read(MPU_address,YG_OFFSET_H));
   GZ_offset = uint8ToUint16(read(MPU_address,ZG_OFFSET_L), read(MPU_address,ZG_OFFSET_H));
+
+  /*
+    Based on http://www.digikey.com/en/pdf/i/invensense/mpu-hardware-offset-registers
+    accelerometer offset is a 15 bit number but it's right shifted as LSB bit must not be changed. 
+  */
+  //read whole register values
+  AX_offset = (read(MPU_address,XA_OFFSET_H)<<8) | (read(MPU_address,XA_OFFSET_L));
+  AY_offset = (read(MPU_address,YA_OFFSET_H)<<8) | (read(MPU_address,YA_OFFSET_L));
+  AZ_offset = (read(MPU_address,ZA_OFFSET_H)<<8) | (read(MPU_address,ZA_OFFSET_L));
+  //shift offset values to the right to remove the sleep_disable
+  AX_offset = AX_offset>>1;
+  AY_offset = AY_offset>>1;
+  AZ_offset = AZ_offset>>1;
 }
 
 void MPU9255::set_gyro_offset(axis selected_axis, int16_t offset)
@@ -36,19 +45,19 @@ void MPU9255::set_gyro_offset(axis selected_axis, int16_t offset)
   {
     case X_axis:
       offset = offset + GX_offset;
-      write(MPU_address,XG_OFFSET_L,(offset & 0x00FF));
+      write(MPU_address,XG_OFFSET_L,(offset & 0xFF));
       write(MPU_address,XG_OFFSET_H,(offset>>8));
       break;
 
     case Y_axis:
       offset = offset + GY_offset;
-      write(MPU_address,YG_OFFSET_L,(offset & 0x00FF));
+      write(MPU_address,YG_OFFSET_L,(offset & 0xFF));
       write(MPU_address,YG_OFFSET_H,(offset>>8));
       break;
 
     case Z_axis:
       offset = offset + GZ_offset;
-      write(MPU_address,ZG_OFFSET_L,(offset & 0x00FF));
+      write(MPU_address,ZG_OFFSET_L,(offset & 0xFF));
       write(MPU_address,ZG_OFFSET_H,(offset>>8));
       break;
   }
@@ -56,24 +65,25 @@ void MPU9255::set_gyro_offset(axis selected_axis, int16_t offset)
 
 void MPU9255::set_acc_offset(axis selected_axis, int16_t offset)
 {
+
   switch(selected_axis)
   {
     case X_axis:
       offset = offset + AX_offset;
-      write(MPU_address,XA_OFFSET_L,(offset & 0x00FF));
-      write(MPU_address,XA_OFFSET_H,(offset>>8));
+      write(MPU_address,XA_OFFSET_L,(offset & 0xFF)<<1);
+      write(MPU_address,XA_OFFSET_H,(offset>>7));
       break;
 
     case Y_axis:
       offset = offset + AY_offset;
-      write(MPU_address,YA_OFFSET_L,(offset & 0x00FF));
-      write(MPU_address,YA_OFFSET_H,(offset>>8));
+      write(MPU_address,YA_OFFSET_L,(offset & 0xFF)<<1);
+      write(MPU_address,YA_OFFSET_H,(offset>>7));
       break;
 
     case Z_axis:
       offset = offset + AZ_offset;
-      write(MPU_address,ZA_OFFSET_L,(offset & 0x00FF));
-      write(MPU_address,ZA_OFFSET_H,(offset>>8));
+      write(MPU_address,ZA_OFFSET_L,(offset & 0xFF)<<1);
+      write(MPU_address,ZA_OFFSET_H,(offset>>7));
       break;
   }
 }
