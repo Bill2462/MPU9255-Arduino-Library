@@ -113,7 +113,7 @@ void MPU9255::enable(modules selected_module)
       break;
 
     case Gyro_Y:
-      write_OR(MPU_address,PWR_MGMT_2, ~(1<<1));
+      write_AND(MPU_address,PWR_MGMT_2, ~(1<<1));
       break;
 
     case Gyro_Z:
