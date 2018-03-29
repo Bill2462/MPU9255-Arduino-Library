@@ -1,6 +1,6 @@
 ### Welcome to MPU9255 arduino library documentation 
 
-# Index : 
+### Index : 
 
 ### Settings 
 
