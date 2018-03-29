@@ -46,14 +46,15 @@ void MPU9255::read_gyro()
 //read magnetometer data registers
 void MPU9255::read_mag()
 {
-  requestBytes(MAG_address, MAG_XOUT_L, 6);
+  requestBytes(MAG_address, MAG_XOUT_L, 8);//note we must request 8 bytes of data because otherwise it does not work
 
   uint8_t rawData[6];
   readArray(rawData,6);
 
-  mx = uint8ToUint16(rawData[1], rawData[0]);
-  my = uint8ToUint16(rawData[3], rawData[2]);
-  mz = uint8ToUint16(rawData[5], rawData[4]);
+  //dump reading into output variables
+  mx = uint8ToUint16(rawData[0], rawData[1]);
+  my = uint8ToUint16(rawData[2], rawData[3]);
+  mz = uint8ToUint16(rawData[4], rawData[5]);
 }
 
 //read temperature
