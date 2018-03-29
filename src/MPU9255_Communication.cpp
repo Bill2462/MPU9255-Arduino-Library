@@ -1,7 +1,15 @@
+/*
+MPU9255_Communication.cpp - MPU9255 <-> CPU communication functions
+*/
+
 #include "MPU9255.h"
 #include "Arduino.h"
 
-
+//Request data
+//Parameters:
+// * uint8_t address    - adress of the device
+// * uint8_t subAddress - address of the register (the read starts from that register)
+// * uint8_t bytes      - number of requested bytes
 void MPU9255::requestBytes(uint8_t address, uint8_t subAddress, uint8_t bytes)
 {
   Wire.beginTransmission(address);
@@ -10,6 +18,10 @@ void MPU9255::requestBytes(uint8_t address, uint8_t subAddress, uint8_t bytes)
   Wire.requestFrom(address, bytes);
 }
 
+//read an array of bytes from the device
+//Parameters:
+// * uint8_t *output - pointer to the output array
+// * char size       - number of bytes to read
 void MPU9255::readArray(uint8_t *output, char size)
 {
   for(char i = 0; i<size; i++)
@@ -18,27 +30,23 @@ void MPU9255::readArray(uint8_t *output, char size)
   }
 }
 
-/* Read one byte of data from the sensor
-Arguments:
-- address - address of the device
-- subAddress - address of the register
-Returns : Contents of the readed register (one byte)
-*/
+//Read one byte of data
+//Parameters:
+// * uint8_t address    - device address
+// * uint8_t subAddress - register address
+//Returns : Readed byte of data (uint8_t)
 uint8_t MPU9255::read(uint8_t address, uint8_t subAddress)
 {
-  uint8_t data;
-  requestBytes(address,subAddress,1);
-  data = Wire.read();
+  requestBytes(address,subAddress,1);//request one byte from the register
+  uint8_t data = Wire.read();//read one byte of data
   return data;
 }
 
-/* Write one byte to the register
-Arguments:
-- address - address of the device
-- subAddress - address of the register
-- data - one byte of data that we want to put in the register
-Returns : None
-*/
+// Write one byte of data
+//Parameters:
+// * uint8_t address    - device address
+// * uint8_t subAddress - register address
+// * uint8_t data       - one byte of data that we want to put in the register
 void MPU9255::write(uint8_t address, uint8_t subAddress, uint8_t data)
 {
   Wire.beginTransmission(address);
@@ -47,14 +55,11 @@ void MPU9255::write(uint8_t address, uint8_t subAddress, uint8_t data)
   Wire.endTransmission();
 }
 
-/* Perform OR operation on a register state and a data byte and write
-result into the register.
-Arguments:
-- address - address of the device
-- subAddress - address of the register
-- data - one byte of data that we want to put in the register
-Returns : None
-*/
+//Change state of the register using OR operation
+//Parameters:
+// * uint8_t address    - device address
+// * uint8_t subAddress - register address
+// * uint8_t data       - one byte of data that we want to put in the register
 void MPU9255::write_OR(uint8_t address, uint8_t subAddress, uint8_t data)
 {
   uint8_t c = read(address,subAddress);
@@ -62,14 +67,11 @@ void MPU9255::write_OR(uint8_t address, uint8_t subAddress, uint8_t data)
   write(address,subAddress,c);
 }
 
-/* Perform AND operation on a register state and a data byte and write
-result into the register.
-Arguments:
-- address - address of the device
-- subAddress - address of the register
-- data - one byte of data that we want to put in the register
-Returns : None
-*/
+//Change state of the register using AND operation
+//Parameters:
+// * uint8_t address    - device address
+// * uint8_t subAddress - register address
+// * uint8_t data       - one byte of data that we want to put in the register
 void MPU9255::write_AND(uint8_t address, uint8_t subAddress, uint8_t data)
 {
   uint8_t c = read(address,subAddress);

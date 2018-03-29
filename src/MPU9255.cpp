@@ -1,83 +1,105 @@
+/*
+  MPU9255.cpp - General control functions.
+*/
+
 #include "MPU9255.h"
 #include "Arduino.h"
 
-/* Initialize the chip
-Arguments: None
-Returns : None
-*/
+//initialise MPU9255
 void MPU9255::init()
 {
-  Wire.begin();// enable I2C interface
-  Hreset();
+  Wire.begin();//enable I2C interface
+  Hreset();//reset the chip
   write(MPU_address,CONFIG, 0x03); // set DLPF_CFG to 11
   write(MPU_address,SMPLRT_DIV, 0x00);// set prescaler sample rate to 0
   write(MPU_address,GYRO_CONFIG, 0x01);// set gyro to 3.6 KHz bandwidth, and 0.11 ms using FCHOICE bits
-  write(MPU_address,INT_PIN_CFG, 0x02);// BYPASS ENABLE (Necessary for the magnetometer to function)
+  write(MPU_address,INT_PIN_CFG, 0x02);// enable bypass
   write(MAG_address, CNTL, 0x16);//set magnetometer to read in mode 2 and enable 16 bit measurements
 
-  ///read magnetometer sensitivity for compensation
+  //read magnetometer sensitivity
   mx_sensitivity = (((read(MAG_address, ASAX)-128)*0.5)/128)+1;
   my_sensitivity = (((read(MAG_address, ASAY)-128)*0.5)/128)+1;
   mz_sensitivity = (((read(MAG_address, ASAZ)-128)*0.5)/128)+1;
 
-  ///read base offset from the accelerometer and the gyroscope
-  AX_offset = uint8ToUint16(read(MPU_address,XA_OFFSET_L), read(MPU_address,XA_OFFSET_H));
-  AY_offset = uint8ToUint16(read(MPU_address,YA_OFFSET_L), read(MPU_address,YA_OFFSET_H));
-  AZ_offset = uint8ToUint16(read(MPU_address,ZA_OFFSET_L), read(MPU_address,ZA_OFFSET_H));
-
+  //read factory gyroscope offset
   GX_offset = uint8ToUint16(read(MPU_address,XG_OFFSET_L), read(MPU_address,XG_OFFSET_H));
   GY_offset = uint8ToUint16(read(MPU_address,YG_OFFSET_L), read(MPU_address,YG_OFFSET_H));
   GZ_offset = uint8ToUint16(read(MPU_address,ZG_OFFSET_L), read(MPU_address,ZG_OFFSET_H));
+
+
+  //Based on http://www.digikey.com/en/pdf/i/invensense/mpu-hardware-offset-registers .
+  //read factory accelerometer offset
+
+  //read the register values and save them as a 16 bit value
+  AX_offset = (read(MPU_address,XA_OFFSET_H)<<8) | (read(MPU_address,XA_OFFSET_L));
+  AY_offset = (read(MPU_address,YA_OFFSET_H)<<8) | (read(MPU_address,YA_OFFSET_L));
+  AZ_offset = (read(MPU_address,ZA_OFFSET_H)<<8) | (read(MPU_address,ZA_OFFSET_L));
+  //shift offset values to the right to remove the LSB
+  AX_offset = AX_offset>>1;
+  AY_offset = AY_offset>>1;
+  AZ_offset = AZ_offset>>1;
 }
 
+//set gyroscope offset.
+//Parameters :
+// * axis selected_axis - selected axis
+// * int16_t offset     - selected offset
 void MPU9255::set_gyro_offset(axis selected_axis, int16_t offset)
 {
   switch(selected_axis)
   {
     case X_axis:
-      offset = offset + GX_offset;
-      write(MPU_address,XG_OFFSET_L,(offset & 0x00FF));
-      write(MPU_address,XG_OFFSET_H,(offset>>8));
+      offset = offset + GX_offset;//add offset to the factory offset
+      write(MPU_address,XG_OFFSET_L,(offset & 0xFF));//write low byte
+      write(MPU_address,XG_OFFSET_H,(offset>>8));//write high byte
       break;
 
     case Y_axis:
       offset = offset + GY_offset;
-      write(MPU_address,YG_OFFSET_L,(offset & 0x00FF));
+      write(MPU_address,YG_OFFSET_L,(offset & 0xFF));
       write(MPU_address,YG_OFFSET_H,(offset>>8));
       break;
 
     case Z_axis:
       offset = offset + GZ_offset;
-      write(MPU_address,ZG_OFFSET_L,(offset & 0x00FF));
+      write(MPU_address,ZG_OFFSET_L,(offset & 0xFF));
       write(MPU_address,ZG_OFFSET_H,(offset>>8));
       break;
   }
 }
 
+//set accelerometer offset
+//Parameters :
+// * axis selected_axis - selected axis
+// * int16_t offset     - selected offset
 void MPU9255::set_acc_offset(axis selected_axis, int16_t offset)
 {
+
   switch(selected_axis)
   {
     case X_axis:
-      offset = offset + AX_offset;
-      write(MPU_address,XA_OFFSET_L,(offset & 0x00FF));
-      write(MPU_address,XA_OFFSET_H,(offset>>8));
+      offset = offset + AX_offset;//add offset to the factory offset
+      write(MPU_address,XA_OFFSET_L,(offset & 0xFF)<<1);//write low byte
+      write(MPU_address,XA_OFFSET_H,(offset>>7));//write high byte
       break;
 
     case Y_axis:
       offset = offset + AY_offset;
-      write(MPU_address,YA_OFFSET_L,(offset & 0x00FF));
-      write(MPU_address,YA_OFFSET_H,(offset>>8));
+      write(MPU_address,YA_OFFSET_L,(offset & 0xFF)<<1);
+      write(MPU_address,YA_OFFSET_H,(offset>>7));
       break;
 
     case Z_axis:
       offset = offset + AZ_offset;
-      write(MPU_address,ZA_OFFSET_L,(offset & 0x00FF));
-      write(MPU_address,ZA_OFFSET_H,(offset>>8));
+      write(MPU_address,ZA_OFFSET_L,(offset & 0xFF)<<1);
+      write(MPU_address,ZA_OFFSET_H,(offset>>7));
       break;
   }
 }
 
+//set accelerometer bandwidth
+//Parameters :
+// * bandwidth selected_bandwidth - selected bandwidth
 void MPU9255::set_acc_bandwidth(bandwidth selected_bandwidth)
 {
   switch(selected_bandwidth)
@@ -135,6 +157,9 @@ void MPU9255::set_acc_bandwidth(bandwidth selected_bandwidth)
   }
 }
 
+//set gyroscope bandwidth
+//Parameters :
+// * bandwidth selected_bandwidth - selected bandwidth
 void MPU9255::set_gyro_bandwidth(bandwidth selected_bandwidth)
 {
   switch(selected_bandwidth)
@@ -150,54 +175,59 @@ void MPU9255::set_gyro_bandwidth(bandwidth selected_bandwidth)
 
     case gyro_250Hz:
       write_AND(MPU_address,GYRO_CONFIG,~((1<<0)|(1<<1)));//set both Fchoice_b to 0
-      //write 0 to DLPF_CFG(000)
+      //write 0(000) to DLPF_CFG
       write_AND(MPU_address,CONFIG,~((1<<0)|(1<<1)|(1<<2)));
       break;
 
     case gyro_184Hz:
       write_AND(MPU_address,GYRO_CONFIG,~((1<<0)|(1<<1)));//set both Fchoice_b to 0
-      //write 1 to thew DLPF_CFG(001)
+      //write 1(001) to DLPF_CFG
       write_AND(MPU_address,CONFIG,~((1<<1)|(1<<2)));
       write_OR(MPU_address,CONFIG,(1<<0));
       break;
 
     case gyro_92Hz:
       write_AND(MPU_address,GYRO_CONFIG,~((1<<0)|(1<<1)));//set both Fchoice_b to 0
-      //write 2 to thew DLPF_CFG(010)
+      //write 2(010) to DLPF_CFG
       write_AND(MPU_address,CONFIG,~((1<<2)|(1<<0)));
       write_OR(MPU_address,CONFIG,(1<<1));
       break;
 
     case gyro_41Hz:
       write_AND(MPU_address,GYRO_CONFIG,~((1<<0)|(1<<1)));//set both Fchoice_b to 0
-      //write 3 to thew DLPF_CFG(011)
+      //write 3(011) to DLPF_CFG
       write_AND(MPU_address,CONFIG,~(1<<2));
       write_OR(MPU_address,CONFIG,(1<<0)|(1<<1));
       break;
 
     case gyro_20Hz:
       write_AND(MPU_address,GYRO_CONFIG,~((1<<0)|(1<<1)));//set both Fchoice_b to 0
-      //write 4 to thew DLPF_CFG(100)
+      //write 4(100) to DLPF_CFG
       write_AND(MPU_address,CONFIG,~((1<<1)|(1<<0)));
       write_OR(MPU_address,CONFIG,(1<<2));
       break;
 
     case gyro_10Hz:
       write_AND(MPU_address,GYRO_CONFIG,~((1<<0)|(1<<1)));//set both Fchoice_b to 0
-      //write 5 to thew DLPF_CFG(101)
+      //write 5(101) to DLPF_CFG
       write_AND(MPU_address,CONFIG,~(1<<1));
       write_OR(MPU_address,CONFIG,(1<<2)|(1<<0));
       break;
 
     case gyro_5Hz:
       write_AND(MPU_address,GYRO_CONFIG,~((1<<0)|(1<<1)));//set both Fchoice_b to 0
-      //write 6 to thew DLPF_CFG(110)
+      //write 6(110) to DLPF_CFG
       write_AND(MPU_address,CONFIG,~(1<<0));
       write_OR(MPU_address,CONFIG,(1<<1)|(1<<2));
       break;
   }
 }
 
+//convert selected scale to to register value
+//Parameters :
+// * uint8_t current_state - previous register state
+// * scales selected_scale - selected scale
+//Returns : New register value (uint8_t)
 uint8_t MPU9255::getScale(uint8_t current_state, scales selected_scale)
 {
   if(selected_scale == scale_2g || selected_scale == scale_250dps)
@@ -225,26 +255,22 @@ uint8_t MPU9255::getScale(uint8_t current_state, scales selected_scale)
   return current_state;
 }
 
-/* Set accelerometer scale
-Arguments:
-- Selected scale
-Returns : None
-*/
+//Set accelerometer scale
+//Parameters:
+// *scales selected_scale - Selected scale
 void MPU9255::set_acc_scale(scales selected_scale)
 {
 	uint8_t val = read(MPU_address,ACCEL_CONFIG);//read old register value
-  	val = getScale(val,selected_scale);
-	write(MPU_address,ACCEL_CONFIG,val);// commit changes
+  val = getScale(val,selected_scale);//get new register value
+	write(MPU_address,ACCEL_CONFIG,val);//commit changes
 }
 
-/* Set gyroscope scale
-Arguments:
-- Selected scale
-Returns : None
-*/
+//Set gyroscope scale
+//Parameters:
+// * scales selected_scale - Selected scale
 void MPU9255::set_gyro_scale(scales selected_scale)
 {
-	uint8_t val=read(MPU_address,GYRO_CONFIG);//read old register value
-  	val = getScale(val,selected_scale);
-	write(MPU_address,GYRO_CONFIG,val);// commit changes
+	uint8_t val=read(MPU_address,GYRO_CONFIG);
+  val = getScale(val,selected_scale);
+	write(MPU_address,GYRO_CONFIG,val);
 }

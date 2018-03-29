@@ -21,3 +21,6 @@ script:
   - arduino --verify --board arduino:avr:uno $PWD/examples/scaleExample/scaleExample.ino
   - arduino --verify --board arduino:avr:uno $PWD/examples/powerControl/powerControl.ino
   - arduino --verify --board arduino:avr:uno $PWD/examples/sleepExample/sleepExample.ino
+  - arduino --verify --board arduino:avr:uno $PWD/examples/bandwidthExample/bandwidthExample.ino
+  - arduino --verify --board arduino:avr:uno $PWD/examples/motionInterrupt/motionInterrupt.ino
+  - arduino --verify --board arduino:avr:uno $PWD/examples/offsetCancellation/offsetCancellation.ino

@@ -1,3 +1,9 @@
+/*
+Data processing example
+This example shows how to process raw readings from the sensors to get acceleration in m/s^2,
+angular velocity in dps (degrees per second) and magnetic flux density in T (Tesla).
+*/
+
 #include <MPU9255.h>// include MPU9255 library
 
 #define g 9.81 // 1g ~ 9.81 m/s^2

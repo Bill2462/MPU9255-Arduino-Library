@@ -1,3 +1,8 @@
+/*
+sleep example
+This example shows how to enable and disable sleep mode. 
+*/
+
 #include <MPU9255.h>//include MPU9255 library
 
 MPU9255 mpu;

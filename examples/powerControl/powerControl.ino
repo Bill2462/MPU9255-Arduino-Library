@@ -1,3 +1,8 @@
+/*
+power control example
+This example disables and reenables all modules that can be disabled. 
+*/
+
 #include <MPU9255.h>//include MPU9255 library
 
 MPU9255 mpu;
