@@ -1,7 +1,6 @@
 # MPU9255-Arduino-Library
 [![Build Status](https://travis-ci.org/Bill2462/MPU9255-Arduino-Library.svg?branch=master)](https://travis-ci.org/Bill2462/MPU9255-Arduino-Library)
-![](https://img.shields.io/badge/language-C%2B%2B-brightgreen.svg)
-![](https://img.shields.io/badge/platform-arduino-brightgreen.svg)
+[![GitHub release](https://img.shields.io/github/release/Bill2462/MPU9255-Arduino-Library.svg?maxAge=3600)](https://github.com/Bill2462/MPU9255-Arduino-Library/releases/latest)
 [![License](https://img.shields.io/github/license/Bill2462/MPU9255-Arduino-Library.svg?maxAge=3600)](LICENSE)
 
 Arduino library for MPU9255 based modules. 
@@ -9,12 +8,14 @@ Arduino library for MPU9255 based modules.
 
 Read acceleration, angular velocity and magnetic field strength on your Arduino board using MPU9266 based IMU module connected via the I2C interface. 
 
-## What works ?
+## What works?
 - Acceleration, angular velocity, magnetic field measurements. 
-- Scale selection (from +- 2g , +- 250 dps to +- 16g , +-2000 dps).
+- Dice temperature measurements using build-in sensor.
+- Selectable scale (from +- 2g , +- 250 dps to +- 16g , +-2000 dps).
+- Selectable bandwidth for gyroscope and accelerometer. 
 - Power control (sleep mode, enabling / disabling internal components). 
 - Reset control.
-- Temperature measurements using build-in sensor.
+- Motion interrupt support. 
 
 ## Compatible IDE
 Library is compatible with arduino IDE 1.6 or newer.
@@ -33,4 +34,4 @@ Library is compatible with arduino IDE 1.6 or newer.
 4. Select location of downloaded library and click "open". 
 
 ## Library documentation
-https://github.com/Bill2462/MPU9255-Arduino-Library/blob/master/doc.md
+https://github.com/Bill2462/MPU9255-Arduino-Library/blob/master/doc/index.md
