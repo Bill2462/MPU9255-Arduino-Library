@@ -1,135 +1,127 @@
+/*
+MPU9255_PowerControl.cpp - Power control functions
+*/
+
 #include "MPU9255.h"
 #include "Arduino.h"
 
-/* Perform hard reset (basically reset everything). Call of init() function is required to use sensor afterwards
-Arguments: None
-Returns : None
-*/
+// perform hard reset (all regesters will be restored to they default values )
 void MPU9255::Hreset()
 {
-  write(MPU_address,PWR_MGMT_1, 0x80);//write 1 to the hard reset bit in PWR_MGMT_1 register
+  write_OR(MPU_address,PWR_MGMT_1,1<<7);//set reset bit in PWR_MGMT_1 register
 }
 
-/* Put main chip in a sleep mode
-Arguments: None
-Returns : None
-*/
+//enable sleep mode
 void MPU9255::sleep_enable()
 {
-  write(MPU_address,PWR_MGMT_1, 0x40);//set sleep bit to 1
+  write_OR(MPU_address,PWR_MGMT_1, 1<<6);//set sleep bit in PWR_MGMT_1 register
 }
 
-/* disable sleep mode
-Arguments: None
-Returns : None
-*/
+//disable sleep mode
 void MPU9255::sleep_disable()
 {
-  write(MPU_address,PWR_MGMT_1, 0x00);//clear the sleep bit
-  delay(500);//wait until module stabilizes
+  write_AND(MPU_address,PWR_MGMT_1, ~(1<<6));//clear sleep bit in PWR_MGMT_1 register
 }
 
+//reset selected module
+//parameters:
+// * modules selected_module - selected module
 void MPU9255::reset(modules selected_module)
 {
-  if(selected_module == accelerometer)
+  switch(selected_module)
   {
-    write(MPU_address,SIGNAL_PATH_RESET, 0x02);
-  }
+    case accelerometer:
+      write_OR(MPU_address,SIGNAL_PATH_RESET, 1<<1);
+      break;
 
-  if(selected_module == gyroscope)
-  {
-    write(MPU_address,SIGNAL_PATH_RESET, 0x04);
-  }
+    case gyroscope:
+      write_OR(MPU_address,SIGNAL_PATH_RESET, 1<<2);
+      break;
 
-  if(selected_module == thermometer)
-  {
-    write(MPU_address,SIGNAL_PATH_RESET, 0x01);
-  }
+    case thermometer:
+      write_OR(MPU_address,SIGNAL_PATH_RESET, 1<<0);
+      break;
 
-  if(selected_module == signalPaths)
-  {
-      write_OR(MPU_address,USER_CTRL, 0x01);
-  }
+    case signalPaths:
+      write_OR(MPU_address,USER_CTRL, 1<<0);
+      break;
 
-  if(selected_module == magnetometer)
-  {
-      write(MAG_address,CNTL2, 0x01);
+    case magnetometer:
+      write_OR(MAG_address,CNTL2, 1<<0);
+      break;
   }
 }
 
+//disable selected_module
+//parameters:
+// * modules selected_module - selected module
 void MPU9255::disable(modules selected_module)
 {
-  if(selected_module == Acc_X)
+  switch (selected_module)
   {
-    write_OR(MPU_address,PWR_MGMT_2, 0x20);
-  }
+    case Acc_X:
+      write_OR(MPU_address,PWR_MGMT_2, 1<<5);
+      break;
 
-  if(selected_module == Acc_Y)
-  {
-    write_OR(MPU_address,PWR_MGMT_2, 0x10);
-  }
+    case Acc_Y:
+      write_OR(MPU_address,PWR_MGMT_2, 1<<4);
+      break;
 
-  if(selected_module == Acc_Z)
-  {
-    write_OR(MPU_address,PWR_MGMT_2, 0x08);
-  }
+    case Acc_Z:
+      write_OR(MPU_address,PWR_MGMT_2, 1<<3);
+      break;
 
-  if(selected_module == Gyro_X)
-  {
-    write_OR(MPU_address,PWR_MGMT_2, 0x04);
-  }
+    case Gyro_X:
+      write_OR(MPU_address,PWR_MGMT_2, 1<<2);
+      break;
 
-  if(selected_module == Gyro_Y)
-  {
-    write_OR(MPU_address,PWR_MGMT_2, 0x02);
-  }
+    case Gyro_Y:
+      write_OR(MPU_address,PWR_MGMT_2, 1<<1);
+      break;
 
-  if(selected_module == Gyro_Z)
-  {
-    write_OR(MPU_address,PWR_MGMT_2, 0x01);
-  }
+    case Gyro_Z:
+      write_OR(MPU_address,PWR_MGMT_2, 1<<0);
+      break;
 
-  if(selected_module == magnetometer)
-  {
-    write(MAG_address,CNTL, 0x00);
+    case magnetometer:
+      write(MAG_address,CNTL, 0x00);
+      break;
   }
-
 }
 
+//enbale selected_module
+//parameters:
+// * modules selected_module - selected module
 void MPU9255::enable(modules selected_module)
 {
-  if(selected_module == Acc_X)
+  switch (selected_module)
   {
-    write_AND(MPU_address,PWR_MGMT_2, ~0x20);
-  }
+    case Acc_X:
+      write_AND(MPU_address,PWR_MGMT_2, ~(1<<5));
+      break;
 
-  if(selected_module == Acc_Y)
-  {
-    write_AND(MPU_address,PWR_MGMT_2, ~0x10);
-  }
+    case Acc_Y:
+      write_AND(MPU_address,PWR_MGMT_2, ~(1<<4));
+      break;
 
-  if(selected_module == Acc_Z)
-  {
-    write_AND(MPU_address,PWR_MGMT_2, ~0x8);
-  }
+    case Acc_Z:
+      write_AND(MPU_address,PWR_MGMT_2, ~(1<<3));
+      break;
 
-  if(selected_module == Gyro_X)
-  {
-    write_AND(MPU_address,PWR_MGMT_2, ~0x04);
-  }
+    case Gyro_X:
+      write_AND(MPU_address,PWR_MGMT_2, ~(1<<2));
+      break;
 
-  if(selected_module == Gyro_Y)
-  {
-    write_AND(MPU_address,PWR_MGMT_2, ~0x02);
-  }
+    case Gyro_Y:
+      write_OR(MPU_address,PWR_MGMT_2, ~(1<<1));
+      break;
 
-  if(selected_module == Gyro_Z)
-  {
-    write_AND(MPU_address,PWR_MGMT_2, ~0x01);
-  }
+    case Gyro_Z:
+      write_AND(MPU_address,PWR_MGMT_2, ~(1<<0));
+      break;
 
-  if(selected_module == magnetometer)
-  {
-    write(MAG_address,CNTL, 0x16);
+    case magnetometer:
+      write(MAG_address,CNTL, 0x16);
+      break;
   }
 }

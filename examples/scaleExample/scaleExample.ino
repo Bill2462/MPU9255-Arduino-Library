@@ -1,3 +1,8 @@
+/*
+Scale example
+This example shows how to set different accelerometer/gyroscope scales.
+*/
+
 #include <MPU9255.h>//include MPU9255 library
 
 MPU9255 mpu;

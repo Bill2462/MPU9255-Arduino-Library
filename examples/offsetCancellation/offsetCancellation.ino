@@ -1,3 +1,14 @@
+/*
+offset cancellation example
+This example automatically finds offset values for each axis of the
+accelerometer and gyroscope.
+
+NOTE: Please don't move the sensor while offset is adjusted.
+
+NOTE2: All offset settings are stored in volatile memory so they
+have to be set every time the module is reseted.
+*/
+
 #include <MPU9255.h>//include MPU9255 library
 
 MPU9255 mpu;

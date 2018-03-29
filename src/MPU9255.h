@@ -88,23 +88,23 @@ class MPU9255
 {
 public:
 
-  //acceleration data
+  //acceleration raw data
   int16_t ax=0;//X axis
   int16_t ay=0;//Y axis
   int16_t az=0;//Z axis
 
-  //gyroscope data
+  //gyroscope raw data
   int16_t gx=0;//X axis
   int16_t gy=0;//Y axis
   int16_t gz=0;//Z axis
 
-  //magnetometer data
+  //magnetometer raw data
   int16_t mx=0;//X axis
   int16_t my=0;//Y axis
   int16_t mz=0;//Z axis
 
   //general control
-  void init();//initialize MPU9255 device
+  void init();//initialize MPU9255
   void set_acc_scale(scales selected_scale);//set accelerometer scale
   void set_gyro_scale(scales selected_scale);//set gyroscope scale
   void set_acc_offset(axis selected_axis, int16_t offset);//set accelerometer offset
@@ -113,54 +113,58 @@ public:
   void set_gyro_bandwidth(bandwidth selected_bandwidth);//set gyroscope bandwidth
 
   //interrupt configuration
-  void set_INT_active_state(interrupt_pin selected_mode);//set whether INT pin is high-active or high-nonactive
-  void set_INT_pin_mode(interrupt_pin selected_mode);//set INT operation mode (open drain or push-pull)
-  void enable_interrupt_output(interrupts selected_interrupt);//enable output of the interrupt
-  void disable_interrupt_output(interrupts selected_interrupt);//disable output of the interrupt
-  void set_INT_signal_mode(interrupt_pin selected_mode);
-  void clear_interrupt();//reset INT pin state
+  void set_INT_active_state(interrupt_pin selected_mode);//set INT pin (interrupt pin) active state
+  void set_INT_pin_mode(interrupt_pin selected_mode);//set INT PIN operation mode (open drain or push-pull)
+  void set_INT_signal_mode(interrupt_pin selected_mode);//set INT pin signal type (pulse or latched)
+  void enable_interrupt_output(interrupts selected_interrupt);//enable interrupt output
+  void disable_interrupt_output(interrupts selected_interrupt);//disable interrupt output
+  void clear_interrupt();//clear interrupt flags
 
   //motion interrupt
   void set_motion_threshold_level(uint8_t threshold);//set threshold level for motion detection
-  void enable_motion_interrupt();//enable motion interrupts
+  void enable_motion_interrupt();//enable motion interrupt
   void disable_motion_interrput();//disable motion interrput
 
   //reset
-  void Hreset();//Hard reset - Resets entire chip (call of init function is required to use chip afterwards)
-  void reset(modules selected_module);// reset a module
+  void Hreset();//hard reset
+  void reset(modules selected_module);//reset selected module
 
-  //data read function
-  void read_acc();//read data from accelerometer
-  void read_gyro();//read data from gyroscope
-  void read_mag();//read data from magnetometer
-  int16_t read_temp();//read temperature from the internal sensor (EXPERIMENTAL!)
+  //measurements
+  void read_acc();//read data from the accelerometer
+  void read_gyro();//read data from the gyroscope
+  void read_mag();//read data from the magnetometer
+  int16_t read_temp();//read temperature
 
   //power control
-  void sleep_enable();//put main chip in a sleep mode
+  void sleep_enable();//enable sleep mode
   void sleep_disable();//disable sleep mode
-  void disable(modules selected_module);//disable something
-  void enable(modules selected_module);//enable something
+  void disable(modules selected_module);//disable selected module
+  void enable(modules selected_module);//enable selected module
 
-  double mx_sensitivity, my_sensitivity, mz_sensitivity;//magnetometer mx_sensitivity for compensation
+  //magnetometer sensitivity
+  double mx_sensitivity;//X axis
+  double my_sensitivity;//Y axis
+  double mz_sensitivity;//Z axis
 
   private:
-  void requestBytes(uint8_t address, uint8_t subAddress, uint8_t bytes);//request bytes from some device
-  uint8_t read(uint8_t address, uint8_t subAddress);//read one byte from register
+  void requestBytes(uint8_t address, uint8_t subAddress, uint8_t bytes);//request data
+  uint8_t read(uint8_t address, uint8_t subAddress);//read one byte from selected register
   void readArray(uint8_t *output, char size);//read an array of bytes
   void write(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register
   void write_OR(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register (with OR operation)
   void write_AND(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register (with AND operation)
-  int16_t uint8ToUint16(uint8_t Lbyte, uint8_t Hbyte);//put together two bytes into one 16 bit variable
-  uint8_t getScale(uint8_t current_state, scales selected_scale);//get register value for a scale
+  int16_t uint8ToUint16(uint8_t Lbyte, uint8_t Hbyte);//convert two bytes into one 16 bit value
+  uint8_t getScale(uint8_t current_state, scales selected_scale);//convert scale value into register value
 
-  //base accelerometer offset
-  int AX_offset;
-  int AY_offset;
-  int AZ_offset;
-  //base gyroscope offset
-  int GX_offset;
-  int GY_offset;
-  int GZ_offset;
+  //accelerometer factory offset
+  int AX_offset;//X axis
+  int AY_offset;//Y axis
+  int AZ_offset;//Z axis
+
+  //gyroscope factory offset
+  int GX_offset;//X axis
+  int GY_offset;//Y axis
+  int GZ_offset;//Z axis
 
   //registers map
   enum registers

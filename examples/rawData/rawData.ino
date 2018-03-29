@@ -1,3 +1,9 @@
+/*
+Raw data example
+This example reads raw readings from the magnetometer gyroscope and the accelerometer and then
+displays them in serial monitor.
+*/
+
 #include <MPU9255.h>//include MPU9255 library
 
 MPU9255 mpu;
