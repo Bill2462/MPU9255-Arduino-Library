@@ -1,3 +1,9 @@
+/*
+Bandwidth example
+This example shows how different low-pass filter settings are affecting the readings from the
+accelerometer and the gyroscope. 
+*/
+
 #include <MPU9255.h>//include MPU9255 library
 
 MPU9255 mpu;
