@@ -12,7 +12,15 @@ MPU9255 mpu;
 
 void setup() {
   Serial.begin(115200);//initialize Serial port
-  mpu.init();//initialize MPU9255 chip
+
+  if(mpu.init())
+  {
+  Serial.println("initialization failed");
+  }
+  else
+  {
+  Serial.println("initialization succesful!");
+  }
 
   //setup motion interrupt
   mpu.set_motion_threshold_level(200);//set motion treshold level to 800 mg (4 mg per LSB)
