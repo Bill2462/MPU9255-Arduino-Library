@@ -119,7 +119,16 @@ double process_magnetic_flux(int16_t input, double sensitivity)
 
 void setup() {
   Serial.begin(115200);// initialize Serial port
-  mpu.init();// Initialize MPU9255 chip
+
+  if(mpu.init())
+  {
+  Serial.println("initialization failed");
+  }
+  else
+  {
+  Serial.println("initialization succesful!");
+  }
+  
 }
 
 void loop() {
