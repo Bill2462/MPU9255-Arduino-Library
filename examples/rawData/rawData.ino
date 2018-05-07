@@ -10,7 +10,16 @@ MPU9255 mpu;
 
 void setup() {
   Serial.begin(115200);//initialize Serial port
-  mpu.init();//initialize MPU9255 chip
+
+  if(mpu.init())
+  {
+  Serial.println("initialization failed");
+  }
+  else
+  {
+  Serial.println("initialization succesful!");
+  }
+
 }
 
 void loop() {
