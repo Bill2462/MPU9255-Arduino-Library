@@ -1,13 +1,30 @@
-## Settings 
+## Utilities
 
 `void init()`
 
 Initializes all internal components. Must be called before any other operation.
 - Parameters : None 
 - Returns : None
+
 ------------------
 
-void set_acc_scale(scales selected_scale)
+`uint8_t testIMU()`
+
+Tests connection with IMU (accelerometer and gyrosocope).
+- Parameters : None 
+- Returns : 0 if success 1 if failure
+
+------------------
+
+`uint8_t testMag()`
+
+Tests connection with magnetometer.
+- Parameters : None 
+- Returns : 0 if success 1 if failure
+
+------------------
+
+`void set_acc_scale(scales selected_scale)`
 
 Selects Accelerometer scale.
 

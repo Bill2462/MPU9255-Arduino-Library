@@ -104,13 +104,15 @@ public:
   int16_t mz=0;//Z axis
 
   //general control
-  void init();//initialize MPU9255
+  uint8_t init();//initialize MPU9255
   void set_acc_scale(scales selected_scale);//set accelerometer scale
   void set_gyro_scale(scales selected_scale);//set gyroscope scale
   void set_acc_offset(axis selected_axis, int16_t offset);//set accelerometer offset
   void set_gyro_offset(axis selected_axis, int16_t offset);//set gyroscope offset
   void set_acc_bandwidth(bandwidth selected_bandwidth);//set accelerometer bandwidth
   void set_gyro_bandwidth(bandwidth selected_bandwidth);//set gyroscope bandwidth
+  uint8_t testIMU();//test gyroscope and accelerometer
+  uint8_t testMag();//test magnetometer
 
   //interrupt configuration
   void set_INT_active_state(interrupt_pin selected_mode);//set INT pin (interrupt pin) active state
@@ -124,6 +126,8 @@ public:
   void set_motion_threshold_level(uint8_t threshold);//set threshold level for motion detection
   void enable_motion_interrupt();//enable motion interrupt
   void disable_motion_interrput();//disable motion interrput
+
+  //
 
   //reset
   void Hreset();//hard reset
@@ -170,8 +174,8 @@ public:
   enum registers
   {
     //sensor adresses
-    MAG_address        = 0x0C,//magnetometer
-    MPU_address        = 0x68,//main chip
+    MAG_address       = 0x0C,//magnetometer
+    MPU_address       = 0x68,//main chip
 
     //main chip
     USER_CTRL         = 0x6A,
@@ -189,6 +193,7 @@ public:
     SMPLRT_DIV        = 0x19,
     INT_ENABLE        = 0x38,
     INT_STATUS        = 0x3A,
+    WHO_AM_I          = 0x77,
 
     //gyroscope offset
     XG_OFFSET_H       = 0x13,
@@ -207,6 +212,7 @@ public:
     ZA_OFFSET_L       = 0x7E,
 
     //magnetometer
+    MAG_ID            = 0x00,
     CNTL              = 0x0A,
     CNTL2             = 0x0B,
     ASAX              = 0x10,

@@ -68,6 +68,8 @@ raw_rdy_interrupt	LITERAL1
 #######################################
 
 init	KEYWORD2
+testIMU	KEYWORD2
+testMag	KEYWORD2
 set_acc_scale	KEYWORD2
 set_gyro_scale	KEYWORD2
 set_acc_offset	KEYWORD2

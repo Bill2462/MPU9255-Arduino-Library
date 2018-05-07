@@ -6,7 +6,8 @@
 #include "Arduino.h"
 
 //initialise MPU9255
-void MPU9255::init()
+//Returns: 0 if success, 1 if imu or magnetometer fails
+uint8_t MPU9255::init()
 {
   Wire.begin();//enable I2C interface
   Hreset();//reset the chip
@@ -38,6 +39,8 @@ void MPU9255::init()
   AX_offset = AX_offset>>1;
   AY_offset = AY_offset>>1;
   AZ_offset = AZ_offset>>1;
+
+  return (testIMU() || testMag());//return the output
 }
 
 //set gyroscope offset.
@@ -260,9 +263,9 @@ uint8_t MPU9255::getScale(uint8_t current_state, scales selected_scale)
 // *scales selected_scale - Selected scale
 void MPU9255::set_acc_scale(scales selected_scale)
 {
-	uint8_t val = read(MPU_address,ACCEL_CONFIG);//read old register value
+  uint8_t val = read(MPU_address,ACCEL_CONFIG);//read old register value
   val = getScale(val,selected_scale);//get new register value
-	write(MPU_address,ACCEL_CONFIG,val);//commit changes
+  write(MPU_address,ACCEL_CONFIG,val);//commit changes
 }
 
 //Set gyroscope scale
@@ -270,7 +273,29 @@ void MPU9255::set_acc_scale(scales selected_scale)
 // * scales selected_scale - Selected scale
 void MPU9255::set_gyro_scale(scales selected_scale)
 {
-	uint8_t val=read(MPU_address,GYRO_CONFIG);
+  uint8_t val=read(MPU_address,GYRO_CONFIG);
   val = getScale(val,selected_scale);
-	write(MPU_address,GYRO_CONFIG,val);
+  write(MPU_address,GYRO_CONFIG,val);
+}
+
+//test IMU (gyroscope and accelerometer)
+//Returns 0 if success, 1 if failure
+uint8_t MPU9255::testIMU()
+{
+  if(read(MPU_address,WHO_AM_I)==0xFF)
+  {
+    return 1;
+  }
+  return 0;
+}
+
+//test magnetometer
+//Returns 0 if success, 1 if failure
+uint8_t MPU9255::testMag()
+{
+  if(read(MAG_address,MAG_ID)==0xFF)
+  {
+    return 1;
+  }
+  return 0;
 }

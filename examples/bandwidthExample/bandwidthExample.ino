@@ -1,7 +1,7 @@
 /*
 Bandwidth example
 This example shows how different low-pass filter settings are affecting the readings from the
-accelerometer and the gyroscope. 
+accelerometer and the gyroscope.
 */
 
 #include <MPU9255.h>//include MPU9255 library
@@ -34,7 +34,16 @@ void print_data()//take some raw readings and print them in serial monitor
 
 void setup() {
   Serial.begin(115200);//initialize Serial port
-  mpu.init();//initialize MPU9255 chip
+
+  if(mpu.init())
+  {
+  Serial.println("initialization failed");
+  }
+  else
+  {
+  Serial.println("initialization succesful!");
+  }
+  
 }
 
 void loop() {

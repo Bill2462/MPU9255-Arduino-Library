@@ -1,8 +1,7 @@
 ### Welcome to MPU9255 arduino library documentation 
 
-### Index : 
 
-### Settings 
+### Utilities
 
 https://github.com/Bill2462/MPU9255-Arduino-Library/blob/master/doc/settings.md
 
