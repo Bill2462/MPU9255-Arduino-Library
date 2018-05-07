@@ -1,6 +1,6 @@
 /*
 power control example
-This example disables and reenables all modules that can be disabled. 
+This example disables and reenables all modules that can be disabled.
 */
 
 #include <MPU9255.h>//include MPU9255 library
@@ -39,7 +39,16 @@ void print_data()//read and print raw data from the sensors
 
 void setup() {
   Serial.begin(115200);//initialize Serial port
-  mpu.init();//initialize MPU9255 chip
+	
+	if(mpu.init())
+	{
+	Serial.println("initialization failed");
+	}
+	else
+	{
+	Serial.println("initialization succesful!");
+	}
+
 }
 
 void loop() {
