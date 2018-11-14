@@ -33,5 +33,32 @@ Library is compatible with arduino IDE 1.6 or newer.
 3. Go to : sketch -> include library and select "add .zip library" option.
 4. Select location of downloaded library and click "open".
 
+## Connecting MPU9255 to arduino
+
+| MPU9255       | Function       |
+| ------------- | ------------- |
+| VCC  | Power supply voltage  |
+| GND  | Power supply ground  |
+| SDA  | I2C data  line |
+| SCL  | I2C clock  line |
+| INT  | Interrupt digital output  |
+| FSYNC|   Frame synchronisaion digital input**  |
+
+** not supported by software. Connect to ground if unused. 
+
+Minimal setup:
+
+| MPU9255       | Arduino       |
+| ------------- | ------------- |
+| VCC  | Either 3.3V or 5v dependng on the module.**  |
+| GND  | GND  |
+| SDA  | SDA  |
+| SCL  | SCL  |
+| INT  | -    |
+| FSYNC| GND  |
+
+** MPU9255 requires 3.3V but some modules have 3.3V regulator built in. Please check your module documentation for more details.
+
+
 ## Library documentation
 https://github.com/Bill2462/MPU9255-Arduino-Library/blob/master/doc/index.md
