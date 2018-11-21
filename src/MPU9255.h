@@ -193,7 +193,7 @@ public:
     SMPLRT_DIV        = 0x19,
     INT_ENABLE        = 0x38,
     INT_STATUS        = 0x3A,
-    WHO_AM_I          = 0x77,
+    WHO_AM_I          = 0x75,
 
     //gyroscope offset
     XG_OFFSET_H       = 0x13,
