@@ -7,7 +7,7 @@ MPU9255_Communication.cpp - MPU9255 <-> CPU communication functions
 
 //Request data
 //Parameters:
-// * uint8_t address    - adress of the device
+// * uint8_t address    - address of the device
 // * uint8_t subAddress - address of the register (the read starts from that register)
 // * uint8_t bytes      - number of requested bytes
 void MPU9255::requestBytes(uint8_t address, uint8_t subAddress, uint8_t bytes)

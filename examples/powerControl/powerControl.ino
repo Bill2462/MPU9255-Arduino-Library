@@ -46,7 +46,7 @@ void setup() {
 	}
 	else
 	{
-	Serial.println("initialization succesful!");
+	Serial.println("initialization successful!");
 	}
 
 }
@@ -100,7 +100,7 @@ void loop() {
 	print_data();
 	Serial.println();
 
-	////////// Reenable all modules //////////
+	////////// Re-enable all modules //////////
 
 	//enable magnetometer
 	Serial.println("Enabling magnetometer...");

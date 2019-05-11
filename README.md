@@ -10,7 +10,7 @@ Read acceleration, angular velocity and magnetic field strength on your Arduino 
 
 ## Features
 - Acceleration, angular velocity, magnetic field measurements.
-- Dice temperature measurements using build-in sensor.
+- Dice temperature measurements using built-in sensor.
 - Selectable scale (from +- 2g , +- 250 dps to +- 16g , +-2000 dps).
 - Selectable bandwidth for gyroscope and accelerometer.
 - Power reduction support.

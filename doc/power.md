@@ -74,7 +74,7 @@ Reset selected module.
     - `modules selected_module` - selected module 
  - Returns : None.
 
-Valid Selected module parameter values (modules that can be resetted)
+Valid Selected module parameter values (modules that can be reset)
 
  - `magnetometer` - magnetometer
  - `accelerometer` - accelerometer

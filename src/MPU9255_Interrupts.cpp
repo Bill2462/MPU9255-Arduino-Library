@@ -45,7 +45,7 @@ void MPU9255::set_INT_active_state(interrupt_pin selected_mode)
   }
 }
 
-//set interrput pin mode
+//set interrupt pin mode
 //Parameters:
 // * interrupt_pin selected_mode - selected mode
 void MPU9255::set_INT_pin_mode(interrupt_pin selected_mode)
@@ -112,12 +112,12 @@ void MPU9255::disable_interrupt_output(interrupts selected_interrupt)
   }
 }
 
-//set motion treshold level
+//set motion threshold level
 //Parameters:
 // * uint8_t threshold - selected threshold
 void MPU9255::set_motion_threshold_level(uint8_t threshold)
 {
-  write(MPU_address,WOM_THR,threshold);//write treshold value to the WOM_THR register
+  write(MPU_address,WOM_THR,threshold);//write threshold value to the WOM_THR register
 }
 
 //enable motion interrupt
