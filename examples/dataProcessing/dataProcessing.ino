@@ -110,7 +110,7 @@ double process_magnetic_flux(int16_t input, double sensitivity)
   To get magnetic flux density in μT, each reading has to be multiplied by sensitivity
   (Constant value different for each axis, stored in ROM), then multiplied by some number (calibration)
   and then divided by 0.6 .
-  (Faced North each axis should output arround 31 µT without any metal / walls around
+  (Faced North each axis should output around 31 µT without any metal / walls around
   Note : This manetometer has really low initial calibration tolerance : +- 500 LSB !!!
   Scale of the magnetometer is fixed -> +- 4800 μT.
   */
@@ -126,7 +126,7 @@ void setup() {
   }
   else
   {
-  Serial.println("initialization succesful!");
+  Serial.println("initialization successful!");
   }
   
 }

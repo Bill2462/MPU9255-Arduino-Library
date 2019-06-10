@@ -89,7 +89,7 @@ void MPU9255::disable(modules selected_module)
   }
 }
 
-//enbale selected_module
+//enable selected_module
 //parameters:
 // * modules selected_module - selected module
 void MPU9255::enable(modules selected_module)

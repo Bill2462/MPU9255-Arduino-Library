@@ -66,7 +66,7 @@ Set offset on selected accelerometer axis.
   - `int16_t offset`     - offset
 - Returns: None
 
-IMPORTANT NOTE : Despite of beeing stored in 16 bit variable, offset is a 15 bit signed number. 
+IMPORTANT NOTE : Despite of being stored in 16 bit variable, offset is a 15 bit signed number. 
 
 Valid selected axis parameter values : 
 - `X_axis` - X axis

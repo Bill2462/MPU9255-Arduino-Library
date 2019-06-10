@@ -17,7 +17,7 @@ void setup() {
   }
   else
   {
-  Serial.println("initialization succesful!");
+  Serial.println("initialization successful!");
   }
 
 }

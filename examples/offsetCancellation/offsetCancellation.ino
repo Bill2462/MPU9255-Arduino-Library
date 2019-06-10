@@ -6,7 +6,7 @@ accelerometer and gyroscope.
 NOTE: Please don't move the sensor while offset is adjusted.
 
 NOTE2: All offset settings are stored in volatile memory so they
-have to be set every time the module is reseted.
+have to be set every time the module is reset.
 */
 
 #include <MPU9255.h>//include MPU9255 library
@@ -282,7 +282,7 @@ void setup() {
   }
   else
   {
-  Serial.println("initialization succesful!");
+  Serial.println("initialization successful!");
   }
 
   //print some control readings

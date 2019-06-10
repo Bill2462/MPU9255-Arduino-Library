@@ -125,7 +125,7 @@ public:
   //motion interrupt
   void set_motion_threshold_level(uint8_t threshold);//set threshold level for motion detection
   void enable_motion_interrupt();//enable motion interrupt
-  void disable_motion_interrput();//disable motion interrput
+  void disable_motion_interrput();//disable motion interrupt
 
   //
 
@@ -173,7 +173,7 @@ public:
   //registers map
   enum registers
   {
-    //sensor adresses
+    //sensor addresses
     MAG_address       = 0x0C,//magnetometer
     MPU_address       = 0x68,//main chip
 

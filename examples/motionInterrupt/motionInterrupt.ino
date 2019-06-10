@@ -19,11 +19,11 @@ void setup() {
   }
   else
   {
-  Serial.println("initialization succesful!");
+  Serial.println("initialization successful!");
   }
 
   //setup motion interrupt
-  mpu.set_motion_threshold_level(200);//set motion treshold level to 800 mg (4 mg per LSB)
+  mpu.set_motion_threshold_level(200);//set motion threshold level to 800 mg (4 mg per LSB)
   mpu.enable_motion_interrupt();//enable motion interrupt
 
   //setup interrupt pin (INT) configuration
