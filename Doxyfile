@@ -68,6 +68,9 @@ OUTPUT_DIRECTORY       =
 # performance problems for the file system.
 # The default value is: NO.
 
+
+USE_MDFILE_AS_MAINPAGE = YES
+
 CREATE_SUBDIRS         = NO
 
 # If the ALLOW_UNICODE_NAMES tag is set to YES, doxygen will allow non-ASCII
