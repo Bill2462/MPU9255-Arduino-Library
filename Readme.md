@@ -61,4 +61,4 @@ Minimal setup:
 
 
 ## Library documentation
-https://github.com/Bill2462/MPU9255-Arduino-Library/blob/master/doc/index.md
+https://bill2462.github.io/MPU9255-Arduino-Library/index.html
