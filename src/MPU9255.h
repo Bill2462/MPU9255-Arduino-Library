@@ -1,3 +1,22 @@
+/**
+ * @file MPU9255.h
+ * @brief Main header of the library.
+ */
+
+// This file is a part of MPU9255 library.
+// Copyright (c) 2017-2020 Krzysztof Adamkiewicz <kadamkiewicz835@gmail.com>
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the “Software”), to deal in the
+// Software without restriction, including without limitation the rights to use, copy,
+// modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+// and to permit persons to whom the Software is furnished to do so, subject to the
+// following conditions: THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+// OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 #ifndef MPU9255_H
 #define MPU9255_H
 
@@ -127,8 +146,6 @@ public:
   void enable_motion_interrupt();//enable motion interrupt
   void disable_motion_interrput();//disable motion interrupt
 
-  //
-
   //reset
   void Hreset();//hard reset
   void reset(modules selected_module);//reset selected module
@@ -157,7 +174,6 @@ public:
   void write(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register
   void write_OR(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register (with OR operation)
   void write_AND(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register (with AND operation)
-  int16_t uint8ToUint16(uint8_t Lbyte, uint8_t Hbyte);//convert two bytes into one 16 bit value
   uint8_t getScale(uint8_t current_state, scales selected_scale);//convert scale value into register value
 
   //accelerometer factory offset
