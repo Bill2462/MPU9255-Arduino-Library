@@ -20,8 +20,10 @@
 #include "MPU9255.h"
 #include "Arduino.h"
 
-//initialise MPU9255
-//Returns: 0 if success, 1 if imu or magnetometer fails
+/**
+ * @brief Initialise MPU9255 module.
+ * @return 0 if success, 1 if imu or magnetometer fails
+ */
 uint8_t MPU9255::init()
 {
   Wire.begin();//enable I2C interface
@@ -42,7 +44,6 @@ uint8_t MPU9255::init()
   GY_offset = uint8ToUint16(read(MPU_address,YG_OFFSET_L), read(MPU_address,YG_OFFSET_H));
   GZ_offset = uint8ToUint16(read(MPU_address,ZG_OFFSET_L), read(MPU_address,ZG_OFFSET_H));
 
-
   //Based on http://www.digikey.com/en/pdf/i/invensense/mpu-hardware-offset-registers .
   //read factory accelerometer offset
 
@@ -50,6 +51,7 @@ uint8_t MPU9255::init()
   AX_offset = (read(MPU_address,XA_OFFSET_H)<<8) | (read(MPU_address,XA_OFFSET_L));
   AY_offset = (read(MPU_address,YA_OFFSET_H)<<8) | (read(MPU_address,YA_OFFSET_L));
   AZ_offset = (read(MPU_address,ZA_OFFSET_H)<<8) | (read(MPU_address,ZA_OFFSET_L));
+  
   //shift offset values to the right to remove the LSB
   AX_offset = AX_offset>>1;
   AY_offset = AY_offset>>1;
@@ -58,10 +60,11 @@ uint8_t MPU9255::init()
   return (testIMU() || testMag());//return the output
 }
 
-//set gyroscope offset.
-//Parameters :
-// * axis selected_axis - selected axis
-// * int16_t offset     - selected offset
+/**
+ * @brief Set gyroscope offset.
+ * @param selected_axis Axis for which we want to set the offset.
+ * @param offset Offset.
+ */
 void MPU9255::set_gyro_offset(axis selected_axis, int16_t offset)
 {
   switch(selected_axis)
@@ -86,10 +89,11 @@ void MPU9255::set_gyro_offset(axis selected_axis, int16_t offset)
   }
 }
 
-//set accelerometer offset
-//Parameters :
-// * axis selected_axis - selected axis
-// * int16_t offset     - selected offset
+/**
+ * @brief Set accelerometer offset.
+ * @param selected_axis Selected axis.
+ * @param offset Offset.
+ */
 void MPU9255::set_acc_offset(axis selected_axis, int16_t offset)
 {
 
@@ -115,9 +119,10 @@ void MPU9255::set_acc_offset(axis selected_axis, int16_t offset)
   }
 }
 
-//set accelerometer bandwidth
-//Parameters :
-// * bandwidth selected_bandwidth - selected bandwidth
+/**
+ * @brief Set accelerometer bandwidth.
+ * @param selected_bandwidth Accelerometer bandwidth.
+ */
 void MPU9255::set_acc_bandwidth(bandwidth selected_bandwidth)
 {
   switch(selected_bandwidth)
@@ -175,9 +180,10 @@ void MPU9255::set_acc_bandwidth(bandwidth selected_bandwidth)
   }
 }
 
-//set gyroscope bandwidth
-//Parameters :
-// * bandwidth selected_bandwidth - selected bandwidth
+/**
+ * @brief Set gyroscope bandwidth.
+ * @param selected_bandwidth Gyroscope bandwidth.
+ */
 void MPU9255::set_gyro_bandwidth(bandwidth selected_bandwidth)
 {
   switch(selected_bandwidth)
@@ -241,11 +247,14 @@ void MPU9255::set_gyro_bandwidth(bandwidth selected_bandwidth)
   }
 }
 
-//convert selected scale to to register value
-//Parameters :
-// * uint8_t current_state - previous register state
-// * scales selected_scale - selected scale
-//Returns : New register value (uint8_t)
+/**
+ * @brief Convert selected scale to to register value.
+ * @details Function that takes the current value of the ACC control register
+ * and applies the selected scale.
+ * @param current_state Current state of the ACC control register.
+ * @param selected_scale Selected scale.
+ * @return New register state.
+ */
 uint8_t MPU9255::getScale(uint8_t current_state, scales selected_scale)
 {
   if(selected_scale == scale_2g || selected_scale == scale_250dps)
@@ -273,9 +282,10 @@ uint8_t MPU9255::getScale(uint8_t current_state, scales selected_scale)
   return current_state;
 }
 
-//Set accelerometer scale
-//Parameters:
-// *scales selected_scale - Selected scale
+/**
+ * @brief Set accelerometer scale.
+ * @param selected_scale Selected scale.
+ */
 void MPU9255::set_acc_scale(scales selected_scale)
 {
   uint8_t val = read(MPU_address,ACCEL_CONFIG);//read old register value
@@ -283,9 +293,10 @@ void MPU9255::set_acc_scale(scales selected_scale)
   write(MPU_address,ACCEL_CONFIG,val);//commit changes
 }
 
-//Set gyroscope scale
-//Parameters:
-// * scales selected_scale - Selected scale
+/**
+ * @brief Set gyroscope scale.
+ * @param selected_scale Selected scale.
+ */
 void MPU9255::set_gyro_scale(scales selected_scale)
 {
   uint8_t val=read(MPU_address,GYRO_CONFIG);
@@ -293,8 +304,10 @@ void MPU9255::set_gyro_scale(scales selected_scale)
   write(MPU_address,GYRO_CONFIG,val);
 }
 
-//test IMU (gyroscope and accelerometer)
-//Returns 0 if success, 1 if failure
+/**
+ * @brief Test if IMU (gyroscope and accelerometer) is working.
+ * @return 0 if IMU is working and 1 otherwise.
+ */
 uint8_t MPU9255::testIMU()
 {
   if(read(MPU_address,WHO_AM_I)==0xFF)
@@ -304,8 +317,10 @@ uint8_t MPU9255::testIMU()
   return 0;
 }
 
-//test magnetometer
-//Returns 0 if success, 1 if failure
+/**
+ * @brief Test if magnetometer is working.
+ * @return 0 if magnetmeter is working and 1 otherwise.
+ */
 uint8_t MPU9255::testMag()
 {
   if(read(MAG_address,MAG_ID)==0xFF)

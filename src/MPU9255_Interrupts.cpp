@@ -20,9 +20,10 @@
 #include "MPU9255.h"
 #include "Arduino.h"
 
-//set interrupt signal mode
-//Parameters:
-// * interrupt_pin selected_mode - selected_mode
+/**
+ * @brief Set interrupt signal mode.
+ * @param selected_mode Selected mode.
+ */
 void MPU9255::set_INT_signal_mode(interrupt_pin selected_mode)
 {
   switch(selected_mode)
@@ -37,15 +38,18 @@ void MPU9255::set_INT_signal_mode(interrupt_pin selected_mode)
   }
 }
 
-//clear interrupt flags (this also clears interrupt pin)
+/**
+ * @brief Clear interrupt flag (this also clears interrupt pin).
+ */
 void MPU9255::clear_interrupt()
 {
   read(MPU_address,INT_STATUS);//read interrupt status register to clear the flags
 }
 
-//set INT pin (interrupt pin ) active state
-//Parameters:
-// * interrupt_pin selected_mode - selected state
+/**
+ * @brief Set interrupt pin active state.
+ * @param selected_mode Interrupt pin active state.
+ */
 void MPU9255::set_INT_active_state(interrupt_pin selected_mode)
 {
   switch (selected_mode)
@@ -60,9 +64,10 @@ void MPU9255::set_INT_active_state(interrupt_pin selected_mode)
   }
 }
 
-//set interrupt pin mode
-//Parameters:
-// * interrupt_pin selected_mode - selected mode
+/**
+ * @brief Set interrupt pin mode.
+ * @param selected_mode Interrupt pin mode of operation.
+ */
 void MPU9255::set_INT_pin_mode(interrupt_pin selected_mode)
 {
   switch (selected_mode)
@@ -77,9 +82,10 @@ void MPU9255::set_INT_pin_mode(interrupt_pin selected_mode)
   }
 }
 
-//enable interrupt signal to propagate to the output pin
-//Parameters:
-// * interrupts selected_interrupt - selected interrupt
+/**
+ * @brief Enable interrupt.
+ * @param selected_interrupt Interrupt to be enabled.
+ */
 void MPU9255::enable_interrupt_output(interrupts selected_interrupt)
 {
   switch(selected_interrupt)
@@ -102,9 +108,10 @@ void MPU9255::enable_interrupt_output(interrupts selected_interrupt)
   }
 }
 
-//enable interrupt signal to propagate to the output pin
-//Parameters:
-// * interrupts selected_interrupt - selected interrupt
+/**
+ * @brief Disable interrupt.
+ * @param selected_interrupt Interrupt to be disabled.
+ */
 void MPU9255::disable_interrupt_output(interrupts selected_interrupt)
 {
   switch(selected_interrupt)
@@ -127,21 +134,26 @@ void MPU9255::disable_interrupt_output(interrupts selected_interrupt)
   }
 }
 
-//set motion threshold level
-//Parameters:
-// * uint8_t threshold - selected threshold
+/**
+ * @brief Set motion detector threeshold level.
+ * @param threshold Threshold value.
+ */
 void MPU9255::set_motion_threshold_level(uint8_t threshold)
 {
   write(MPU_address,WOM_THR,threshold);//write threshold value to the WOM_THR register
 }
 
-//enable motion interrupt
+/**
+ * @brief Enable motion detector interrupt.
+ */
 void MPU9255::enable_motion_interrupt()
 {
   write(MPU_address,MOT_DETECT_CTRL,(1<<7)|(1<<7));
 }
 
-//disable motion interrupt
+/**
+ * @brief Disable motion detector interrupt.
+ */
 void MPU9255::disable_motion_interrput()
 {
   write(MPU_address,MOT_DETECT_CTRL,~((1<<7)|(1<<7)));

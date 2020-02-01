@@ -146,8 +146,6 @@ public:
   void enable_motion_interrupt();//enable motion interrupt
   void disable_motion_interrput();//disable motion interrupt
 
-  //
-
   //reset
   void Hreset();//hard reset
   void reset(modules selected_module);//reset selected module
@@ -176,7 +174,6 @@ public:
   void write(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register
   void write_OR(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register (with OR operation)
   void write_AND(uint8_t address, uint8_t subAddress, uint8_t data);//write one byte of data to the register (with AND operation)
-  int16_t uint8ToUint16(uint8_t Lbyte, uint8_t Hbyte);//convert two bytes into one 16 bit value
   uint8_t getScale(uint8_t current_state, scales selected_scale);//convert scale value into register value
 
   //accelerometer factory offset
