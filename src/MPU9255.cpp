@@ -40,9 +40,9 @@ uint8_t MPU9255::init()
   mz_sensitivity = (((read(MAG_address, ASAZ)-128)*0.5)/128)+1;
 
   //read factory gyroscope offset
-  GX_offset = uint8ToUint16(read(MPU_address,XG_OFFSET_L), read(MPU_address,XG_OFFSET_H));
-  GY_offset = uint8ToUint16(read(MPU_address,YG_OFFSET_L), read(MPU_address,YG_OFFSET_H));
-  GZ_offset = uint8ToUint16(read(MPU_address,ZG_OFFSET_L), read(MPU_address,ZG_OFFSET_H));
+  GX_offset = ((int16_t)read(MPU_address, XG_OFFSET_H) << 8) | read(MPU_address, XG_OFFSET_L);
+  GY_offset = ((int16_t)read(MPU_address, YG_OFFSET_H) << 8) | read(MPU_address, YG_OFFSET_L);
+  GZ_offset = ((int16_t)read(MPU_address, XG_OFFSET_H) << 8) | read(MPU_address, ZG_OFFSET_L);
 
   //Based on http://www.digikey.com/en/pdf/i/invensense/mpu-hardware-offset-registers .
   //read factory accelerometer offset
