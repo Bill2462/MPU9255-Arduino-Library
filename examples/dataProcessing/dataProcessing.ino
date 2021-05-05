@@ -147,7 +147,7 @@ void loop() {
   Serial.print(process_acceleration(mpu.ay,scale_2g));
 
   //Z axis
-  Serial.print("  AY: ");
+  Serial.print("  AZ: ");
   Serial.print(process_acceleration(mpu.az,scale_2g));
 
 
