@@ -63,9 +63,9 @@ void MPU9255::read_mag()
   uint8_t rawData[6];
   readArray(rawData,6);
 
-  mx = ((int16_t)rawData[0] << 8) | rawData[1];
-  my = ((int16_t)rawData[2] << 8) | rawData[3];
-  mz = ((int16_t)rawData[4] << 8) | rawData[5];
+  mx = ((int16_t)rawData[1] << 8) | rawData[0];
+  my = ((int16_t)rawData[3] << 8) | rawData[2];
+  mz = ((int16_t)rawData[5] << 8) | rawData[4];
 }
 
 /**
